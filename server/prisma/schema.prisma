@@ -1,0 +1,265 @@
+/// ================================
+/// Prisma Schema — Campus Connect
+/// ================================
+
+generator client {
+  provider = "prisma-client-js"
+
+  // Use default output (node_modules). Import with: import { PrismaClient } from "@prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum ChannelRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  LAUGH
+  SAD
+  ANGRY
+  WOW
+}
+
+
+model User {
+  id           String   @id @default(cuid())
+  firebaseUid  String   @unique            // map Firebase user -> app user
+  email        String   @unique
+  username     String   @unique
+  matricNo     String   @unique
+  password     String
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+
+  profile      Profile?
+  posts        Post[]           @relation("UserPosts")
+  comments     Comment[]        @relation("UserComments")
+  messages     Message[]        @relation("UserMessages")
+  channels     ChannelMember[]  // membership pivot
+  reactions    Reaction[]       // all reactions by this user
+  events       Event[]          @relation("EventCreators")
+  rsvps        EventAttendee[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([departmentId])
+  @@index([username])
+  Channel Channel[]
+}
+
+model Profile {
+  id        String  @id @default(cuid())
+  bio       String?
+  displayName String? @unique
+  picture   String? @default("https://i.pinimg.com/736x/19/f4/c6/19f4c63914a04ed8284a969a690318fd.jpg")
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String  @unique
+}
+
+/// Departments let you normalize faculty/department metadata.
+model Department {
+  id        String  @id @default(cuid())
+  code      String? @unique
+  name      String  @unique
+
+  users     User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Posts are general updates/resources; they support comments & reactions.
+model Post {
+  id          String     @id @default(cuid())
+  authorId    String
+  author      User       @relation("UserPosts", fields: [authorId], references: [id], onDelete: Cascade)
+
+  title       String
+  content     String?
+  thumbnail   String?
+  tags        String[]   // keep simple for MVP; can normalize later
+  mentions    String[]   // store user ids/handles as strings (MVP)
+
+  comments    Comment[]
+  reactions   Reaction[] // reactions on posts
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([authorId])
+  @@index([title])
+}
+
+/// Comments belong to Posts (threaded via parentId), and can be reacted to.
+model Comment {
+  id         String   @id @default(cuid())
+  postId     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId   String
+  author     User     @relation("UserComments", fields: [authorId], references: [id], onDelete: Cascade)
+
+  content    String
+
+  parentId   String?     // for threaded/nested comments
+  parent     Comment?    @relation("CommentThread", fields: [parentId], references: [id], onDelete: Cascade)
+  children   Comment[]   @relation("CommentThread")
+
+  reactions  Reaction[]
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([postId])
+  @@index([authorId])
+  @@index([parentId])
+}
+
+
+
+model Channel {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique          
+  visibility  Visibility  @default(PUBLIC)
+
+  createdById String
+  createdBy   User        @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  members     ChannelMember[]
+  messages    Message[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([visibility])
+  @@index([createdById])
+  Event Event[]
+}
+
+/// Membership pivot with roles; one row per user per channel.
+model ChannelMember {
+  id         String     @id @default(cuid())
+  channelId  String
+  userId     String
+  role       ChannelRole @default(MEMBER)
+  joinedAt   DateTime    @default(now())
+
+  channel    Channel    @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([channelId, userId]) 
+  @@index([userId])
+}
+
+
+model Message {
+  id            String    @id @default(cuid())
+  channelId     String
+  authorId      String
+  content       String
+  attachments   String[]  
+
+  threadRootId  String?
+  threadRoot    Message?  @relation("MessageThread", fields: [threadRootId], references: [id], onDelete: Cascade)
+  threadReplies Message[]  @relation("MessageThread")
+
+  channel       Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  author        User      @relation("UserMessages", fields: [authorId], references: [id], onDelete: Cascade)
+
+  reactions     Reaction[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([authorId])
+  @@index([threadRootId])
+}
+
+/// Reactions can target a Post, Comment, or Message.
+/// Unique constraints prevent duplicate reaction *type* by the same user on the same target.
+model Reaction {
+  id         String        @id @default(cuid())
+  type       ReactionType?
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Polymorphic targets (exactly one should be set)
+  postId     String?
+  post       Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  commentId  String?
+  comment    Comment?      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  messageId  String?
+  message    Message?      @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+
+  // Enforce uniqueness per target
+  @@unique([userId, type, postId])
+  @@unique([userId, postId])
+  @@unique([userId, type, commentId])
+  @@unique([userId, type, messageId])
+  @@index([postId])
+  @@index([commentId])
+  @@index([messageId])
+}
+
+/// Events with RSVP (attendees). Optionally link to a channel for discussions.
+model Event {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  location     String?
+  banner       String?
+
+  startsAt     DateTime
+  endsAt       DateTime
+
+  createdById  String
+  createdBy    User     @relation("EventCreators", fields: [createdById], references: [id], onDelete: Cascade)
+
+  channelId    String?  // optional discussion channel
+  channel      Channel? @relation(fields: [channelId], references: [id], onDelete: SetNull)
+
+  attendees    EventAttendee[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([startsAt])
+  @@index([createdById])
+  @@index([channelId])
+}
+
+/// RSVP pivot for events.
+model EventAttendee {
+  id       String  @id @default(cuid())
+  eventId  String
+  userId   String
+
+  event    Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  rsvpAt   DateTime @default(now())
+
+  @@unique([eventId, userId]) // one RSVP per user per event
+  @@index([userId])
+}
