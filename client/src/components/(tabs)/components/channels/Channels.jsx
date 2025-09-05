@@ -10,6 +10,7 @@ import { useAuth } from '@//hooks/auth'
 import { useState } from 'react'
 import { useRef } from 'react'
 import useProfile from '@//hooks/useProfile'
+import ReplyThread from './ReplyThread'
 
 
 
@@ -59,15 +60,13 @@ export const Channel = () => {
             },
       })
 
-
       return (
             <div className='w-full relatives h-full flex'>
                   <aside className='w-[20rem] min-w-[20rem] h-full'>
                         <div className='border-b  border-border w-full h-12 flex items-center text-lg fontfont-medium p-2 px-4'>
                               Channels
                         </div>
-                        <ul className="w-fu
-                        ll space-y-2 p-4">
+                        <ul className="w-full space-y-2 p-4">
                               <p className='text-xs py-1 font-mono text-slate-600/70'>Public channels</p>
                               {data?.map((a) => {
                                     const isActive = activeChannel?.id == a?.id
@@ -75,24 +74,27 @@ export const Channel = () => {
                               })}
                         </ul>
                   </aside>
-                  <div className='w-full relative'>
-                        <main className='flex-1 relative pb-[40px] h-[calc(100vh-32px)]   overflow-y-scroll bg-white'>
-                              <div>
-                                    <TabHeader tabList={tabList} />
-                                    <Banner title={"#" + activeChannel?.name} subtitle=""></Banner>
-                                    <div className='w-full  h-full pt-5'>
-                                          <Thread channel={{ ...activeChannel }} />
+                  <div className='flex flex-1'>
+                        <div className='w-full flex-1 relative'>
+                              <main className='flex-1 relative pb-[40px] h-[calc(100vh-32px)]   overflow-y-scroll bg-white'>
+                                    <div>
+                                          <TabHeader tabList={tabList} />
+                                          <Banner title={"#" + activeChannel?.name} subtitle=""></Banner>
+                                          <div className='w-full  h-full pt-5'>
+                                                <Thread channel={{ ...activeChannel }} />
+                                          </div>
+                                    </div>
+                              </main>
+                              <div className='absolute gap-2 mt-3 flex bg-white bottom-0 pb-4 left-4  right-4'>
+                                    <Textarea onChange={(e) => setContent(e.target.value)} value={content} placeholder="Message #channel" className={"border-border py-2"} />
+                                    <div className='cursor-pointer'>
+                                          <svg onClick={() => senndMessage.mutate(activeChannel)} xmlns="http://www.w3.org/2000/svg" width="40" height="24" viewBox="0 0 24 24" fill="#5764F0" stroke="white" strokeWidth="1.5s" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal-icon lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
                                     </div>
                               </div>
-                        </main>
-                        <div className='absolute gap-2 mt-3 flex bg-white bottom-0 pb-4 left-4  right-4'>
-                              <Textarea onChange={(e) => setContent(e.target.value)} value={content} placeholder="Message #channel" className={"border-border py-2"} />
-                              <div className='cursor-pointer'>
-                                    <svg onClick={() => senndMessage.mutate(activeChannel)} xmlns="http://www.w3.org/2000/svg" width="40" height="24" viewBox="0 0 24 24" fill="#5764F0" stroke="white" strokeWidth="1.5s" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal-icon lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
-                              </div>
                         </div>
+                        {/* <ReplyThread /> */}
                   </div>
-            </div>
+            </div >
       )
 }
 

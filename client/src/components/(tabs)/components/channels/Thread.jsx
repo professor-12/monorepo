@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 
 
-const timeAgo = (iso) => {
+export const timeAgo = (iso) => {
       const diff = Date.now() - new Date(iso).getTime();
       const minutes = Math.floor(diff / 60000);
       if (minutes < 1) return "just now";
@@ -26,7 +26,7 @@ const Thread = ({ channel }) => {
       }, [channel])
 
       return (
-            <div className="py-3 space-y-6  px-4">
+            <div className="py-3 flex-1 space-y-6  px-4">
                   {
                         channel?.messages?.map((item) => {
                               return <MessageItem {...item} isAnonymous={isAnonymous} />
