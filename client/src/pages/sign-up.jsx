@@ -9,6 +9,8 @@ import { registerSchema } from "../schema/auth";
 import { useRegister } from "../hooks/auth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { departments } from "../lib/utils";
 
 const Signup = () => {
       const form = useForm({ defaultValues: { email: "", department: "", matricNo: "", password: "", username: "" }, resolver: zodResolver(registerSchema) });
@@ -88,9 +90,45 @@ const Signup = () => {
                                                 name="department"
                                                 render={({ field }) => (
                                                       <FormItem>
+                                                            <FormLabel>Faculty</FormLabel>
+                                                            <FormControl>
+                                                                  <Select
+                                                                        onValueChange={field.onChange}
+                                                                        defaultValue={field.value}
+                                                                  >
+                                                                        <SelectTrigger className="w-full">
+                                                                              <SelectValue placeholder="Select a Faculty" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              <SelectItem value="tech">Technology</SelectItem>
+                                                                              <SelectItem value="sci">Science</SelectItem>
+                                                                              <SelectItem value="eng">Engineering</SelectItem>
+                                                                        </SelectContent>
+                                                                  </Select>
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                      </FormItem>
+                                                )}
+                                          />
+
+                                          <FormField
+                                                control={form.control}
+                                                name="department"
+                                                render={({ field }) => (
+                                                      <FormItem>
                                                             <FormLabel>Department</FormLabel>
                                                             <FormControl>
-                                                                  <Input placeholder="Computer engineering" {...field} />
+                                                                  <Select onValueChange={field.onChange} defaultValue={field.value} className="w-full">
+                                                                        <SelectTrigger className="w-full">
+                                                                              <SelectValue placeholder="Select a department" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              {departments.map(({ code, dept }) => (
+                                                                                    <SelectItem value={code}>{dept}</SelectItem>
+                                                                              ))
+                                                                              }
+                                                                        </SelectContent>
+                                                                  </Select>
                                                             </FormControl>
                                                             <FormMessage />
                                                       </FormItem>

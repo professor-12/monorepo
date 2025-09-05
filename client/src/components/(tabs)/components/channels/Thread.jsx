@@ -22,7 +22,7 @@ const Thread = ({ channel }) => {
       const ref = useRef()
 
       useEffect(() => {
-            ref.current?.scrollIntoView({ behaviour: "smooth" })
+            ref?.current?.scrollIntoView({ behavior: "smooth" });
       }, [channel])
 
       return (

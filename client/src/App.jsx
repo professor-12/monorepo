@@ -10,7 +10,7 @@ import Profile from './pages/me/profile'
 import AccountLayout from './pages/me/layout'
 import HomePage from './pages/home'
 import TabProvider from './store/TabProvider'
-import { Outlet } from "react-router-dom"
+import { Outlet, Navigate } from "react-router-dom"
 
 const router = createBrowserRouter([
 
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
   {
     path: '',
     element: <ProtectedLayout>
-      <Outlet />
+      <Navigate to={"/home"} />
     </ProtectedLayout>,
     children: [{ path: "profile", element: <Profile /> }]
   },

@@ -8,9 +8,7 @@ import { BASE_URL, tabList } from '@//lib/utils'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@//hooks/auth'
 import { useState } from 'react'
-import { useRef } from 'react'
 import useProfile from '@//hooks/useProfile'
-import ReplyThread from './ReplyThread'
 
 
 
@@ -60,6 +58,8 @@ export const Channel = () => {
             },
       })
 
+
+
       return (
             <div className='w-full relatives h-full flex'>
                   <aside className='w-[20rem] min-w-[20rem] h-full'>
@@ -79,7 +79,7 @@ export const Channel = () => {
                               <main className='flex-1 relative pb-[40px] h-[calc(100vh-32px)]   overflow-y-scroll bg-white'>
                                     <div>
                                           <TabHeader tabList={tabList} />
-                                          <Banner title={"#" + activeChannel?.name} subtitle=""></Banner>
+                                          <Banner title={"#" + activeChannel?.name || ""} subtitle={"This is the very beginning of " + (activeChannel?.name || "") + " channel"}></Banner>
                                           <div className='w-full  h-full pt-5'>
                                                 <Thread channel={{ ...activeChannel }} />
                                           </div>
@@ -92,7 +92,6 @@ export const Channel = () => {
                                     </div>
                               </div>
                         </div>
-                        {/* <ReplyThread /> */}
                   </div>
             </div >
       )
