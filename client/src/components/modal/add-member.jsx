@@ -45,6 +45,7 @@ const AddMember = ({ cancel, channelId }) => {
                   toast.error("Select a user");
             }
 
+            console.log(channelId, selectedUser)
             try {
                   setLoading(true);
                   const req = await fetch(`${BASE_URL}/channel/add-member`, {

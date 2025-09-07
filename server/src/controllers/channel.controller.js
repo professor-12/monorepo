@@ -193,6 +193,7 @@ export const listofProfile = async (req, res, next) => {
             select: {
                 profile: true,
                 email: true,
+                id: true,
             },
             take: 10,
         });
