@@ -6,9 +6,10 @@ import { useChannel } from '@//store/ChannelProvider'
 import TabHeader from '../header'
 import { BASE_URL, tabList } from '@//lib/utils'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '@//hooks/auth'
 import { useState } from 'react'
 import useProfile from '@//hooks/useProfile'
+import { useAuthContext } from '@//components/AuthProvider'
+import AddMember from '@//components/modal/add-member'
 
 
 
@@ -17,7 +18,7 @@ export const Channel = () => {
       const [content, setContent] = useState("")
       const { data: profile } = useProfile()
       const queryClient = useQueryClient()
-      const user = useAuth()
+      const user = useAuthContext()
       const { channelData, activeChannelId, handleChangeChannel } = useChannel()
       const { data = [] } = channelData;
       const activeChannel = data?.find?.((a) => a.id == activeChannelId)
@@ -58,7 +59,7 @@ export const Channel = () => {
             },
       })
 
-
+      const [addUser, setAddUser] = useState(null)
 
       return (
             <div className='w-full relatives h-full flex'>
@@ -66,11 +67,22 @@ export const Channel = () => {
                         <div className='border-b  border-border w-full h-12 flex items-center text-lg fontfont-medium p-2 px-4'>
                               Channels
                         </div>
+                        {
+                              addUser &&
+                              <AddMember cancel={() => { setAddUser(null) }} channelId={addUser.id} />
+                        }
                         <ul className="w-full space-y-2 p-4">
-                              <p className='text-xs py-1 font-mono text-slate-600/70'>Public channels</p>
-                              {data?.map((a) => {
+                              {(Array.isArray(data) ? data : [])?.map((a) => {
                                     const isActive = activeChannel?.id == a?.id
-                                    return <li onClick={() => handleChangeChannel(a?.id)} className={`space-x-3 p-2 cursor-pointer transition-colors duration-400  hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${isActive && "bg-[#E7E7E9] text-black hover:bg-[#E7E7E9]"}`}><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></span><span>{a?.name}</span></li>
+                                    const isOwner = a.createdBy.firebaseUid == user?.user?.uid && "group-hover:flex"
+                                    return <li onClick={() => handleChangeChannel(a?.id)} className={`space-x-3 relative group p-2 cursor-pointer transition-colors duration-400  hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${isActive && "bg-[#E7E7E9] text-black hover:bg-[#E7E7E9]"}`}><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></span><span className='flex gap-3 items-center'>
+                                          <div onClick={(e) => { e.stopPropagation(); setAddUser(a) }} className={`hidden absolute  right-3 ${isOwner}`}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg></div>
+                                          <span>
+                                                {a?.name}
+                                          </span> {a.visibility == "PRIVATE" &&
+                                                <Lock />
+                                          }
+                                    </span></li>
                               })}
                         </ul>
                   </aside>
@@ -100,3 +112,7 @@ export const Channel = () => {
 
 
 
+
+const Lock = ({ className, ...props }) => {
+      return <svg  {...props} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" className={"lucide lucide-lock-icon lucide-lock " + className}><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+}

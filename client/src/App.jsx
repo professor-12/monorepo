@@ -50,10 +50,12 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <div>
-      <RouterProvider router={router}></RouterProvider>
-      <Toaster position='top-right' />
-    </div>
+    <>
+      <Toaster position='bottom-right' />
+      <div className='relative'>
+        <RouterProvider router={router}></RouterProvider>
+      </div>
+    </>
   )
 }
 

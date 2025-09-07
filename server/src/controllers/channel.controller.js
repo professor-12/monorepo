@@ -1,11 +1,29 @@
+import { includes } from "zod";
+import { AppError } from "../config/customerror.js";
 import { prisma } from "../lib/prisma.js";
 
 export const getChannels = async (req, res, next) => {
     try {
         const channels = await prisma.channel.findMany({
-            where: { visibility: "PUBLIC" },
-            take: 5, // limit results to test
+            where: {
+                OR: [
+                    { visibility: "PUBLIC" },
+                    {
+                        members: {
+                            some: {
+                                userId: req.user.id,
+                            },
+                        },
+                    },
+                    {
+                        createdById: req.user.id,
+                    },
+                ],
+            },
+
+            // take: 5,
             include: {
+                createdBy: { select: { firebaseUid: true } },
                 messages: {
                     include: {
                         threadReplies: true,
@@ -44,9 +62,9 @@ export const getChannel = async (req, res, next) => {
 // CREATE channel
 export const createChannel = async (req, res, next) => {
     try {
-        const { name, topic, visibility } = req.body;
+        const { name, visibility, slug } = req.body;
         const channel = await prisma.channel.create({
-            data: { name, topic },
+            data: { name, visibility, slug, createdById: req.user.id },
         });
         res.status(201).json(channel);
     } catch (err) {
@@ -69,6 +87,78 @@ export const updateChannel = async (req, res, next) => {
     }
 };
 
+export const addMember = async (req, res, next) => {
+    try {
+        const { channelId, userId, role } = req.body;
+
+        if (!channelId || !userId) {
+            return res
+                .status(400)
+                .json({ error: "channelId and userId are required" });
+        }
+
+        const channel = await prisma.channel.findUnique({
+            where: { id: channelId },
+            include: {
+                members: true,
+            },
+        });
+
+        if (!channel) {
+            throw new AppError("Channel not found", 404);
+        }
+
+        const isOwner = channel.createdById === req.user.id;
+        console.log(isOwner);
+        const _member = channel.members.find((m) => m.userId == req.user.id);
+        const isAdmin = _member?.role === "ADMIN";
+
+        if (!isOwner && !isAdmin) {
+            return res
+                .status(403)
+                .json({ error: "Not authorized to add members" });
+        }
+
+        if (!channel) {
+            return res.status(404).json({ error: "Channel not found" });
+        }
+        const existing = await prisma.channelMember.findUnique({
+            where: {
+                channelId_userId: {
+                    channelId,
+                    userId,
+                },
+            },
+        });
+
+        if (existing) {
+            return res
+                .status(409)
+                .json({ error: "User is already a member of this channel" });
+        }
+
+        const member = await prisma.channelMember.create({
+            data: {
+                channelId,
+                userId,
+                role: role || "MEMBER",
+            },
+            include: {
+                user: {
+                    select: { profile: true },
+                },
+            },
+        });
+
+        return res.status(201).json({
+            message: "Member added successfully",
+            member,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 // DELETE channel
 export const deleteChannel = async (req, res, next) => {
     try {
@@ -77,6 +167,37 @@ export const deleteChannel = async (req, res, next) => {
             where: { id: Number(id) },
         });
         res.status(204).end();
+    } catch (err) {
+        next(err);
+    }
+};
+
+// GET /api/users/search?q=john
+export const listofProfile = async (req, res, next) => {
+    try {
+        const { q } = req.query;
+        if (!q) return res.json([]);
+
+        const users = await prisma.user.findMany({
+            where: {
+                OR: [
+                    { username: { contains: q, mode: "insensitive" } },
+                    {
+                        email: { contains: q, mode: "insensitive" },
+                    },
+                    {
+                        matricNo: { contains: q, mode: "insensitive" },
+                    },
+                ],
+            },
+            select: {
+                profile: true,
+                email: true,
+            },
+            take: 10,
+        });
+
+        res.json({ data: users, message: "Success" });
     } catch (err) {
         next(err);
     }

@@ -4,7 +4,7 @@ import { useMarketPlace } from '@/store/MarketPlaceProvider'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
-import { BASE_URL } from '@//lib/utils'
+import { BASE_URL } from '@/lib/utils'
 import Modal from '@//components/ui/Modal'
 import CommentSection from './CommentSection'
 
@@ -15,7 +15,6 @@ const Home = () => {
 
       const { user } = useAuth()
       const navigateToProfile = (name) => {
-            console.log(name, router)
             router?.(`/profile?xnd=${name}`)
       }
       const likeMutation = useMutation({

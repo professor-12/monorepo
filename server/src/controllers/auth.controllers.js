@@ -43,7 +43,9 @@ export const createUser = async (req, res) => {
             password: hashedPassword,
             department: undefined,
             profile: {
-                create: {},
+                create: {
+                    displayName: data.username,
+                },
             },
         },
     });

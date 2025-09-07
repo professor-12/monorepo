@@ -1,5 +1,6 @@
 import React from 'react'
 import { auth } from '../config/firebase'
+import ChangeModal from "../components/(tabs)/components/channels/ChannelModal"
 import {
       Popover,
       PopoverContent,
@@ -7,10 +8,10 @@ import {
 } from "@/components/ui/popover"
 import { signOut } from 'firebase/auth'
 import { useAuth } from '../hooks/auth'
+import { useState } from 'react'
 
 
 const navData = [{ name: "", icon: "", link: "/" },
-
 { name: "Friends", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>, link: "/friends" },
 { name: "Settings", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg>, link: "/settings" },
 { name: "Groups", icon: "", link: "/groups" }]
@@ -18,10 +19,17 @@ const navData = [{ name: "", icon: "", link: "/" },
 
 const Navigation = () => {
       const { user } = useAuth()
-      console.log(user)
+      const [modal, SetModal] = useState("")
+      const handleChangeModal = (id) => {
+            SetModal((prev) => id)
+      }
       return (
             <div className='w-full overflow-hidden justify-between h-full pb-4  flex flex-col px-4'>
                   <div className='gap-4 flex flex-col'>
+                        {
+
+                              modal === 0 && <ChangeModal handleChangeModal={handleChangeModal} />
+                        }
                         {
                               navData.map((item, indx) => {
                                     const isActive = 0 == indx
@@ -42,17 +50,18 @@ const Navigation = () => {
                                                       <PopoverContent
                                                             side="right"
                                                             align="start"
-                                                            sideOffset={12}   // ✅ spacing between trigger and popover
+                                                            sideOffset={12}
                                                             className="w-48 rounded-xl border border-gray-200 bg-white shadow-md"
                                                       >
                                                             <h1 className="px-3 py-2 text-sm font-semibold text-gray-700 border-b">
                                                                   Create
                                                             </h1>
-                                                            <ul className="p-1 text-sm text-gray-600">
+                                                            <ul className="pt-3 text-sm text-gray-600">
                                                                   {["Channel", "Post", "Event"].map((item, idx) => (
                                                                         <li
+                                                                              onClick={(e) => { SetModal(idx) }}
                                                                               key={idx}
-                                                                              className="cursor-pointer rounded-lg px-2 py-2 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                                                              className="cursor-pointer rounded-lg px-3 py-2 transition-colors hover:bg-gray-100 hover:text-gray-900"
                                                                         >
                                                                               {item}
                                                                         </li>

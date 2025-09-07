@@ -1,31 +1,28 @@
 import React from 'react'
 import { createContext } from 'react'
-
-
-export const useAuth = () => {
-      const [user, setUser] = useState(null);
-      const [loading, setLoading] = useState(true);
-
-      useEffect(() => {
-            // Subscribe to Firebase auth state
-            const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-                  setUser(firebaseUser);
-                  setLoading(false);
-            });
-
-            return () => unsubscribe();
-      }, []);
-
-      return { user, loading };
-};
+import { useAuth } from '../hooks/auth'
+import { useContext } from 'react'
 
 
 const Auth = createContext({})
 const AuthProvider = ({ children }) => {
       const value = useAuth()
+      if (value.loading) {
+            return <div>Loading</div>
+      }
       return (
             <Auth.Provider value={{ ...value }}> {children}</Auth.Provider >
       )
 }
 
 export default AuthProvider
+
+export function useAuthContext() {
+      const context = useContext(Auth)
+
+      if (!context) {
+            throw new Error("Context not found")
+      }
+
+      return context
+}
