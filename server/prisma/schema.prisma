@@ -135,7 +135,7 @@ model Comment {
 model Channel {
   id          String      @id @default(cuid())
   name        String
-  slug        String      @unique          
+  slug        String?      @unique          
   visibility  Visibility  @default(PUBLIC)
 
   createdById String
@@ -152,7 +152,7 @@ model Channel {
   Event Event[]
 }
 
-/// Membership pivot with roles; one row per user per channel.
+
 model ChannelMember {
   id         String     @id @default(cuid())
   channelId  String

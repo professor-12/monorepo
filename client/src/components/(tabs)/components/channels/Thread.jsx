@@ -20,7 +20,7 @@ export const timeAgo = (iso) => {
 const Thread = ({ channel }) => {
       const isAnonymous = channel?.name == "anonymous"
       const ref = useRef()
-
+      
       useEffect(() => {
             ref?.current?.scrollIntoView({ behavior: "smooth" });
       }, [channel])

@@ -1,17 +1,18 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
-import useFetch from "../hooks/use-fetch";
 import { BASE_URL } from "../lib/utils";
+import { useAuth } from "../hooks/auth";
+import { useAuthContext } from "../components/AuthProvider";
 const Channel = createContext({});
 
 const ChannelProvider = ({ children }) => {
-    const data = useQuery({ queryFn: async () => await fetch(BASE_URL + "/pubic-channels").then(e => e.json()), queryKey: ["channel"] })
+    const { user } = useAuthContext()
+    const data = useQuery({ queryFn: async () => await fetch(BASE_URL + "/pubic-channels", { headers: { "Authorization": "Bearer " + user?.uid } }).then(e => e.json()), queryKey: ["channel"] })
     const [activeChannelId, setActiveChannel] = useState(null)
-
 
 
     useEffect(() => {

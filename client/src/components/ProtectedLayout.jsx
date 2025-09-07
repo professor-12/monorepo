@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../hooks/auth";
 import { Navigate } from "react-router-dom"; // or use next/navigation if Next.js
+import AuthProvider from "./AuthProvider";
 
 const ProtectedLayout = ({ children }) => {
       const { user, loading } = useAuth();
@@ -13,7 +14,7 @@ const ProtectedLayout = ({ children }) => {
             return <Navigate to="/auth/login" replace />; // redirect if not authenticated
       }
 
-      return <div>{children}</div>;
+      return <AuthProvider>{children}</AuthProvider>;
 };
 
 export default ProtectedLayout;

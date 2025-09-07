@@ -1,8 +1,10 @@
+import ProtectedLayout from '@//components/ProtectedLayout'
 import Navigation from '@/components/Navigation'
 import React from 'react'
 import { Outlet } from "react-router-dom"
 const HomeLayout = () => {
       return (
+
             <div className='w-full  flex flex-col overflow-hidden bg-[#F3F3F4] h-[100dvh]'>
                   <div className='min-h-8 h-8 w-full'>
                   </div>

@@ -22,7 +22,7 @@ export const profileController = async (req, res, next) => {
             },
         });
     }
-
+    
     return res.status(200).json({
         data: { ...profile },
         message: "Profile fetched successfully",
