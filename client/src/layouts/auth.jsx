@@ -10,7 +10,7 @@ const Auth = () => {
                                     <h1 className='text-white text-4xl'>Connect with people on campus<span className='size-[12rem] rounded-full bg-white'></span></h1>
                                     <p className='text-sm mt-2 text-white'>Lorem cia dolores quo sit distinctio. Accusamus, delectus.</p>
                                     <div className='w-full flex-1 rounded-3xl overflow-clip  relative mt-8 bg-white'>
-                                          <img src="/undraw_sign.png" className='absolute object-cover w-full h-full right-4' alt="" />
+                                          <img loading='lazy' src="/undraw_sign.png" className='absolute object-cover w-full h-full right-4' alt="" />
                                     </div>
                               </div>
 

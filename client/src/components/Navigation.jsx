@@ -9,6 +9,7 @@ import {
 import { signOut } from 'firebase/auth'
 import { useAuth } from '../hooks/auth'
 import { useState } from 'react'
+import useProfile from '../hooks/useProfile'
 
 
 const navData = [{ name: "", icon: "", link: "/" },
@@ -19,6 +20,7 @@ const navData = [{ name: "", icon: "", link: "/" },
 
 const Navigation = () => {
       const { user } = useAuth()
+      const { data } = useProfile()
       const [modal, SetModal] = useState("")
       const handleChangeModal = (id) => {
             SetModal((prev) => id)
@@ -35,7 +37,10 @@ const Navigation = () => {
                                     const isActive = 0 == indx
                                     if (indx == 0) {
                                           return (<div key={indx} className={`aspect-square text-white flex items-center justify-center ${isActive ? 'bg-[#5764F0]' : "bg-[#E7E7E9] !text-black"} rounded-[0.6rem] text-white text-center border-b last:border-none border-border`}>
-                                                <span className='text-lg'>{user?.email?.substring(0, 2)}</span>
+                                                <span className='text-lg uppercase'>
+                                                      <img loading='lazy' src={data?.picture} alt="" />
+                                                      {user?.email?.substring(0, 2)}
+                                                </span>
                                           </div>)
                                     }
                                     if (indx == 1) {
