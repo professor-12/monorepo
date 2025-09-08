@@ -79,9 +79,6 @@ const CommentSection = ({ postId }) => {
             },
       });
 
-      if (!comments.length) {
-            return <div>No comments yet.</div>;
-      }
 
       return (
             <div className="cursor-default">

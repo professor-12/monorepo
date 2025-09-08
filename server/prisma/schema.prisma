@@ -91,7 +91,7 @@ model Post {
 
   title       String
   content     String?
-  thumbnail   String?
+  thumbnail   String? @default("https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png")
   tags        String[]   // keep simple for MVP; can normalize later
   mentions    String[]   // store user ids/handles as strings (MVP)
 
@@ -105,7 +105,7 @@ model Post {
   @@index([title])
 }
 
-/// Comments belong to Posts (threaded via parentId), and can be reacted to.
+
 model Comment {
   id         String   @id @default(cuid())
   postId     String
@@ -116,7 +116,7 @@ model Comment {
 
   content    String
 
-  parentId   String?     // for threaded/nested comments
+  parentId   String?    
   parent     Comment?    @relation("CommentThread", fields: [parentId], references: [id], onDelete: Cascade)
   children   Comment[]   @relation("CommentThread")
 

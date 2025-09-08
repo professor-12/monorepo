@@ -9,11 +9,14 @@ const Profile = () => {
       const params = useSearchParams()[0];
       const d = useSearchParams(params)
       const a = new URLSearchParams(params)
-      const _isOwner = !(!!a.get("xnd"))
       const { isLoading, data } = useProfile()
       const { data: _data } = data || {}
       console.log(_data)
       const isOwner = _data?.user?.firebaseUid === user?.uid
+      if (isLoading) {
+            return <div>Loading...</div>
+      }
+
       return (
             <div className='mx-auto max-w-2xl mt-12 w-[80%]'>
                   <div className='flex justify-between'>
@@ -50,21 +53,21 @@ const Profile = () => {
                                           <h1 className=''>Display name</h1>
                                           <p className='text-sm text-gray-600'>{_data?.displayName}</p>
                                     </div>
-                                    <Button variant="outline">Edit</Button>
+
                               </div>
                               <div className='flex justify-between'>
                                     <div>
                                           <h1 className=''>Username</h1>
                                           <p className='text-sm text-gray-600'>{_data?.user?.username}</p>
                                     </div>
-                                    <Button variant="outline">Edit</Button>
+
                               </div>
                               <div className='flex justify-between'>
                                     <div>
                                           <h1 className=''>Email</h1>
                                           <p className='text-sm text-gray-600'>{_data?.user?.email}</p>
                                     </div>
-                                    <Button variant="outline">Edit</Button>
+
                               </div>
                               <div className='flex justify-between'>
                                     <div>
