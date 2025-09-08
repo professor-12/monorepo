@@ -24,7 +24,7 @@ const AddMember = ({ cancel, channelId }) => {
 
             const handleSearch = async () => {
                   try {
-                        const req = await fetch(`${BASE_URL}/user/ahead?q=${query.value}`);
+                        const req = await fetch(`${BASE_URL}/user/ahead?q=${query.value}`, { headers: { "Authorization": "Bearer " + user?.uid } });
                         const res = await req.json();
                         setProfileResults(res.data);
                   } catch (err) {
@@ -114,9 +114,9 @@ const AddMember = ({ cancel, channelId }) => {
                                                 placeholder="Username or email of the student"
                                           />
 
-                                          {profileResults.length > 0 && (
+                                          {profileResults?.length > 0 && (
                                                 <div className="max-h-[10rem] border rounded-xl border-border p-4 divide-y overflow-y-auto">
-                                                      {profileResults.map((user) => {
+                                                      {profileResults?.map((user) => {
                                                             const { profile } = user;
                                                             return (
                                                                   <div

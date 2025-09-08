@@ -10,12 +10,12 @@ import MarketNav from './MarketNav'
 import Home from './Home'
 import LikedPost from './LikedPost'
 import MentionPost from './MentionPost'
+import MyPost from './MyPost'
 
 
 
 const MarketPlace = () => {
       const { tab } = useMarketPlace()
-
 
       return (
             <div className='w-full h-full flex'>
@@ -36,6 +36,10 @@ const MarketPlace = () => {
                               {
                                     "Mentions" == tab &&
                                     <MentionPost />
+                              }
+                              {
+                                    "My Post" == tab &&
+                                    <MyPost />
                               }
                         </>
 

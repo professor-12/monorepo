@@ -10,6 +10,7 @@ import { signOut } from 'firebase/auth'
 import { useAuth } from '../hooks/auth'
 import { useState } from 'react'
 import useProfile from '../hooks/useProfile'
+import AddPost from './modal/add-post'
 
 
 const navData = [{ name: "", icon: "", link: "/" },
@@ -31,6 +32,10 @@ const Navigation = () => {
                         {
 
                               modal === 0 && <ChangeModal handleChangeModal={handleChangeModal} />
+                        }
+                        {
+
+                              modal === 1 && <AddPost handleChangeModal={handleChangeModal} />
                         }
                         {
                               navData.map((item, indx) => {

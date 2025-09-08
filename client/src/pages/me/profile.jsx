@@ -16,7 +16,7 @@ const Profile = () => {
       if (isLoading) {
             return <div>Loading...</div>
       }
-      
+
       return (
             <div className='mx-auto max-w-2xl mt-12 w-[80%]'>
                   <div className='flex justify-between'>

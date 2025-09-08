@@ -1,7 +1,9 @@
 import { prisma } from "../lib/prisma.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const post = async (req, res, next) => {
     const data = await prisma.post.findMany({
+        orderBy: { createdAt: "desc" },
         include: {
             author: {
                 select: {
@@ -87,6 +89,91 @@ export const handleLikePost = async (req, res, next) => {
             data: { ...newLike, userId: req.user.firebaseUid },
         });
     } catch (error) {
+        next(error);
+    }
+};
+
+export const createPost = async (req, res, next) => {
+    try {
+        const authorId = req.user.id;
+        const { title, content, tags, mentions } = req.body;
+
+        if (!content || !authorId) {
+            return res
+                .status(400)
+                .json({ error: "title and authorId are required" });
+        }
+
+        let thumbnailUrl = null;
+
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString("base64");
+            const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+
+            const uploadRes = await cloudinary.uploader.upload(dataURI, {
+                folder: "posts",
+            });
+
+            thumbnailUrl = uploadRes.secure_url;
+        }
+
+        const post = await prisma.post.create({
+            data: {
+                authorId,
+                title: content,
+                content: content || null,
+                thumbnail: thumbnailUrl,
+                tags: tags ? JSON.parse(tags) : [],
+                mentions: mentions ? JSON.parse(mentions) : [],
+            },
+        });
+
+        res.status(201).json(post);
+    } catch (error) {
+        console.error("Error creating post:", error);
+        if (error instanceof multer.MulterError) {
+            if (error.code === "LIMIT_FILE_SIZE") {
+                return res
+                    .status(400)
+                    .json({ error: "File too large (max 5MB)" });
+            }
+        }
+
+        next(error);
+    }
+};
+
+export const getMyPost = async (req, res, next) => {
+    try {
+        const userId = req.user?.id;
+
+        if (!userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+
+        const posts = await prisma.post.findMany({
+            where: { authorId: userId },
+            orderBy: { createdAt: "desc" },
+            include: {
+                comments: true,
+                reactions: true,
+                author: {
+                    select: {
+                        id: true,
+                        profile: true,
+                        email: true,
+                        username: true,
+                    },
+                },
+            },
+        });
+
+        res.status(200).json({
+            data: posts,
+            message: "Posts retrieved successfully",
+        });
+    } catch (error) {
+        console.error("Error fetching my posts:", error);
         next(error);
     }
 };
