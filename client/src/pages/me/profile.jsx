@@ -11,7 +11,6 @@ const Profile = () => {
       const a = new URLSearchParams(params)
       const { isLoading, data } = useProfile()
       const { data: _data } = data || {}
-      console.log(_data)
       const isOwner = _data?.user?.firebaseUid === user?.uid
       if (isLoading) {
             return <div>Loading...</div>

@@ -38,9 +38,8 @@ const CommentSection = ({ postId }) => {
 
                   const previousPosts = queryClient.getQueryData(["market"])?.data;
 
-
                   queryClient.setQueryData(["market"], (data) => {
-                        console.log(data)
+
                         const posts = data?.data
                         const newPost = posts.map((p) =>
                               p.id === postId
@@ -63,8 +62,6 @@ const CommentSection = ({ postId }) => {
                                     }
                                     : p
                         )
-
-                        console.log(newPost)
                         return { data: newPost, ...data }
                   });
 

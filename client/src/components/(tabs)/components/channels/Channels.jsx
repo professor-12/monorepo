@@ -24,7 +24,6 @@ export const Channel = () => {
       const activeChannel = data?.find?.((a) => a.id == activeChannelId)
       const senndMessage = useMutation({
             mutationFn: async () => {
-                  console.log(content);
                   if (content.trim("").length == 0) return;
                   const req = await fetch(`${BASE_URL}/message/send?channelId=${activeChannelId}`, {
                         method: "POST",

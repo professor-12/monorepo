@@ -4,7 +4,6 @@ import { prisma } from "../lib/prisma.js";
 export const profileController = async (req, res, next) => {
     const email = req?.user?.id;
     const { xnd } = req?.query;
-    console.log(typeof xnd);
 
     let profile;
     if (xnd !== "null") {
@@ -22,7 +21,7 @@ export const profileController = async (req, res, next) => {
             },
         });
     }
-    
+
     return res.status(200).json({
         data: { ...profile },
         message: "Profile fetched successfully",

@@ -20,7 +20,6 @@ export const getChannels = async (req, res, next) => {
                     },
                 ],
             },
-
             // take: 5,
             include: {
                 createdBy: { select: { firebaseUid: true } },
