@@ -11,6 +11,7 @@ import AccountLayout from './pages/me/layout'
 import HomePage from './pages/home'
 import TabProvider from './store/TabProvider'
 import { Outlet, Navigate } from "react-router-dom"
+import CampusConnect from './pages'
 
 const router = createBrowserRouter([
 
@@ -27,10 +28,12 @@ const router = createBrowserRouter([
   },
   {
     path: '',
-    element: <ProtectedLayout>
-      <Outlet />
-    </ProtectedLayout>,
-    children: [{ path: "profile", element: <Profile /> }]
+    element: <CampusConnect />,
+    children: [{
+      path: "profile", element: <ProtectedLayout>
+        <Profile />
+      </ProtectedLayout>
+    }]
   },
   {
     path: '/auth',

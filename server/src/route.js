@@ -6,6 +6,7 @@ import {
     createChannel,
     getChannels,
     listofProfile,
+    replyToMessage,
 } from "./controllers/channel.controller.js";
 import route from "./routes/auth.route.js";
 import {
@@ -45,4 +46,5 @@ app.post("/post/create", protect, upload.single("thumbnail"), createPost);
 app.get("/post/my-post", protect, getMyPost);
 
 app.post("/channel/add-member", protect, addMember);
+app.post("/channel/reply/:messageId", protect, replyToMessage);
 export default app;
