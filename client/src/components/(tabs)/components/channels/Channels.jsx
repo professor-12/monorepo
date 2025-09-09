@@ -71,7 +71,7 @@ export const Channel = () => {
                               addUser &&
                               <AddMember cancel={() => { setAddUser(null) }} channelId={addUser.id} />
                         }
-                        <ul className="w-full space-y-2 p-4">
+                        <ul className="w-full max-h-[80vh] overflow-auto space-y-2 p-4">
                               {(Array.isArray(data) ? data : [])?.map((a) => {
                                     const isActive = activeChannel?.id == a?.id
                                     const isOwner = a.createdBy.firebaseUid == user?.user?.uid && "group-hover:flex"
