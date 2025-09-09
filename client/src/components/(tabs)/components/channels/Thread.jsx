@@ -35,7 +35,7 @@ const Thread = ({ channel }) => {
                               return <MessageItem openThread={(d) => setOpenThread(d)}  {...item} isAnonymous={isAnonymous} />
                         })
                   }
-                  {openThread && <ThreadModal handleClose={() => { setOpenThread(null) }} thread={openThread} />}
+                  {openThread && <ThreadModal handleClose={() => { setOpenThread(null) }} isAnonymous={isAnonymous} thread={openThread} />}
                   <div ref={ref}></div>
 
             </div>

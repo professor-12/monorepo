@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom";
 const useProfile = () => {
     const params = useSearchParams()[0];
     const realParms = new URLSearchParams(params.toString());
-    console.log(params.get("xnd"));
+
     const { data, error, fetchData, loading } = useFetch();
     const { user } = useAuth();
     return useQuery({

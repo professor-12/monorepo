@@ -31,7 +31,6 @@ const Login = () => {
 
       const onSubmit = async (data) => {
             login.mutate(data)
-            console.log(login, "From login page")
       }
 
       return (

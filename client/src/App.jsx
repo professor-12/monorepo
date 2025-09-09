@@ -29,11 +29,16 @@ const router = createBrowserRouter([
   {
     path: '',
     element: <Outlet />,
-    children: [{
-      path: "profile", element: <ProtectedLayout>
-        <Profile />
-      </ProtectedLayout>
-    }]
+    children: [
+      {
+        path: "profile", element: <ProtectedLayout>
+          <Profile />
+        </ProtectedLayout>
+      },
+      {
+        index: true, element: <CampusConnect />
+      },
+    ]
   },
   {
     path: '/auth',

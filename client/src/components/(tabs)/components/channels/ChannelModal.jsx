@@ -16,7 +16,6 @@ const ChannelModal = ({ handleChangeModal }) => {
             mutationKey: ["create-channel"],
             mutationFn: async (e) => {
                   e.preventDefault()
-                  console.log(form)
                   const { name, visibility = "PUBLIC" } = form
                   if (!name || !visibility) throw new Error("All fields are required");
                   if (!user) return
