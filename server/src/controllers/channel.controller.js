@@ -214,31 +214,30 @@ export const listofProfile = async (req, res, next) => {
 
 export const replyToMessage = async (req, res, next) => {
     try {
-        const { channelId, content, attachments } = req.body || {};
+        const { content, attachments } = req.body || {};
         const { messageId } = req.params;
         const userId = req.user.id;
+
         const rootMessage = await prisma.message.findUnique({
             where: { id: messageId },
         });
+
         if (!rootMessage) {
             return res.status(404).json({ message: "Root message not found" });
-        }
-
-        // Ensure reply is in the same channel as root
-        if (rootMessage.channelId !== channelId) {
-            return res.status(400).json({ message: "Channel mismatch" });
         }
 
         const reply = await prisma.message.create({
             data: {
                 content,
                 attachments: attachments || [],
-                channelId,
+                channelId: rootMessage.channelId, // 🔑 reuse root channel
                 authorId: userId,
                 threadRootId: messageId,
             },
             include: {
-                author: { profile: true },
+                author: {
+                    include: { profile: true }, // ✅ proper include
+                },
                 threadRoot: true,
             },
         });

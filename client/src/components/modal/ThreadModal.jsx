@@ -2,14 +2,53 @@ import React from 'react'
 import Modal from '../ui/Modal'
 import { Textarea } from '../ui/textarea'
 import { timeAgo } from '../(tabs)/components/channels/Thread'
+import { CancelSvg } from './add-post'
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 
-const ThreadModal = ({ thread }) => {
-      const { author, content, threadReplies: replies, isAnonymous, createdAt } = thread
+const ThreadModal = ({ thread, handleClose }) => {
+      console.log(thread)
+      const { author, content, threadReplies: replies, isAnonymous, createdAt, channelId, messageId } = thread
+
+
+      const [repy, setReply] = useState("")
+
+      const { data, mutate, isPending, error } = useMutation({
+            mutationKey: ["reply", channelId, messageId],
+            mutationFn: async ({ repy, attachments }) => {
+                  const res = await fetch(
+                        `${BASE_URL}/channels/${channelId}/messages/${messageId}/reply`,
+                        {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ content: reply, attachments }),
+                        }
+                  );
+
+                  if (!res.ok) {
+                        throw new Error("Failed to send reply");
+                  }
+
+                  return res.json();
+            },
+            onSuccess: (data) => {
+                  // ✅ Optimistic update: refresh thread
+                  queryClient.invalidateQueries({
+                        queryKey: ["thread", messageId],
+                  });
+            },
+      });
+
 
       return (
             <Modal>
                   <div className='w-[80%] cursor-default max-w-2xl p-5 max-h-[80vh] overflow-auto rounded-2xl bg-white'>
-                        <h1 className='text-lg'>Thread</h1>
+                        <div className='flex justify-between'>
+                              <h1 className='text-lg'>Thread</h1>
+                              <div className='cursor-pointer'>
+                                    <CancelSvg onClick={handleClose} className="cursor-pointer" />
+                              </div>
+                        </div>
                         <div className='py-8 space-y-8'>
                               <div className='flex  gap-2 max-w-[40rem] w-full'>
                                     <div>
