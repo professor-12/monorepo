@@ -28,7 +28,7 @@ const router = createBrowserRouter([
   },
   {
     path: '',
-    element: <CampusConnect />,
+    element: <Outlet />,
     children: [{
       path: "profile", element: <ProtectedLayout>
         <Profile />
