@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/auth'
 import { useState } from 'react'
 import useProfile from '../hooks/useProfile'
 import AddPost from './modal/add-post'
-
+import { useNavigate } from "react-router-dom"
 
 const navData = [{ name: "", icon: "", link: "/" },
 { name: "Friends", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>, link: "/friends" },
@@ -20,6 +20,7 @@ const navData = [{ name: "", icon: "", link: "/" },
 
 
 const Navigation = () => {
+      const route = useNavigate()
       const { user } = useAuth()
       const { data } = useProfile()
       const [modal, SetModal] = useState("")
@@ -41,11 +42,11 @@ const Navigation = () => {
                               navData.map((item, indx) => {
                                     const isActive = 0 == indx
                                     if (indx == 0) {
-                                          return (<div key={indx} className={`aspect-square text-white flex items-center justify-center ${isActive ? 'bg-[#5764F0]' : "bg-[#E7E7E9] !text-black"} rounded-[0.6rem] text-white text-center border-b last:border-none border-border`}>
-                                                <span className='text-lg uppercase'>
-                                                      <img loading='lazy' src={data?.picture} alt="" />
-                                                      {user?.email?.substring(0, 2)}
-                                                </span>
+                                          return (<div key={indx} onClick={() => route("/profile")} className={`aspect-square cursor-pointer text-white flex items-center justify-center ${isActive ? 'bg-[#5764F0]' : "bg-[#E7E7E9] !text-black"} rounded-[0.6rem] text-white text-center border-b overflow-hidden last:border-none border-border`}>
+
+                                                <img loading='lazy' className='w-full inset-0 object-center object-cover h-full' src={data?.data?.picture} alt="" />
+                                                {/* {user?.email?.substring(0, 2)} */}
+                                                {/* </span> */}
                                           </div>)
                                     }
                                     if (indx == 1) {

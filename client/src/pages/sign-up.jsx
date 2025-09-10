@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useForm } from 'react-hook-form';
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '../components/ui/form';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '../components/ui/form';
 import { Input } from '../components/ui/input'
 import React from 'react'
 import { Button } from '../components/ui/button';
@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { departments } from "../lib/utils";
+
+
 
 const Signup = () => {
       const form = useForm({ defaultValues: { email: "", department: "", matricNo: "", password: "", username: "" }, resolver: zodResolver(registerSchema) });
@@ -34,7 +36,6 @@ const Signup = () => {
                               <h1 className='text-xl'>Welcome on board!</h1>
                               <p className="text-sm text-muted-foreground">Please fill up your credentials</p>
                         </div>
-
                         <div className='w-full mt-6'>
                               <Form {...form}>
                                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

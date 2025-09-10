@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { protect } from "./middleware/auth.js";
-import { profileController } from "./controllers/profile.controller.js";
+import {
+    editProfileController,
+    profileController,
+} from "./controllers/profile.controller.js";
 import {
     addMember,
     createChannel,
@@ -44,7 +47,12 @@ app.post("/channel/create", protect, createChannel);
 app.get("/user/ahead", protect, listofProfile);
 app.post("/post/create", protect, upload.single("thumbnail"), createPost);
 app.get("/post/my-post", protect, getMyPost);
-
+app.put(
+    "/profile/edit",
+    protect,
+    upload.single("picture"),
+    editProfileController
+);
 app.post("/channel/add-member", protect, addMember);
 app.post("/channel/reply/:messageId", protect, replyToMessage);
 export default app;

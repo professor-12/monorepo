@@ -76,7 +76,7 @@ model Department {
   id        String  @id @default(cuid())
   code      String? @unique
   name      String  @unique
-
+  
   users     User[]
 
   createdAt DateTime @default(now())
