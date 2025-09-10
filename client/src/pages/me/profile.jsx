@@ -1,13 +1,19 @@
+import { CancelSvg } from '@//components/modal/add-post';
+import EditProfileModal from '@//components/modal/EditProfileModal';
 import { useAuth } from '@//hooks/auth'
 import useProfile from '@//hooks/useProfile'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from "react-router-dom";
 
 const Profile = () => {
       const { user } = useAuth()
+      const route = useNavigate()
       const params = useSearchParams()[0];
       const d = useSearchParams(params)
+      const [openProfile, setOpenProfile] = useState(false)
       const a = new URLSearchParams(params)
       const { isLoading, data } = useProfile()
       const { data: _data } = data || {}
@@ -18,10 +24,20 @@ const Profile = () => {
 
       return (
             <div className='mx-auto max-w-2xl mt-12 w-[80%]'>
+                  {openProfile && <EditProfileModal handleCloseModal={() => {
+                        setOpenProfile(false)
+                  }} data={_data} />}
                   <div className='flex justify-between'>
                         <div className='flex-1'>
                               <h2 className='text-lg font-bold'>Profile Information</h2>
-                              <p className='text-sm text-gray-600'>Manage your profile information and settings.</p>
+                              <p className='text-sm text-gray-600'>Manage your profile information and settings</p>
+                        </div>
+                        <div>
+                              <div onClick={() => {
+                                    route("/home")
+                              }} className='border cursor-pointer rounded-full'>
+                                    <CancelSvg />
+                              </div>
                         </div>
                   </div>
                   <div className='w-full bg-[#F3F3F4] pb-5 mt-8  rounded-md'>
@@ -42,7 +58,9 @@ const Profile = () => {
 
                               {
                                     isOwner &&
-                                    <Button className="inline">Edit User Profile</Button>
+                                    <Button onClick={() => {
+                                          setOpenProfile(true)
+                                    }} className="inline">Edit User Profile</Button>
                               }
                         </div>
 
@@ -65,13 +83,6 @@ const Profile = () => {
                                     <div>
                                           <h1 className=''>Email</h1>
                                           <p className='text-sm text-gray-600'>{_data?.user?.email}</p>
-                                    </div>
-
-                              </div>
-                              <div className='flex justify-between'>
-                                    <div>
-                                          <h1 className=''>Matric Number</h1>
-                                          <p className='text-sm text-gray-600'>{_data?.user?.matricNo}</p>
                                     </div>
 
                               </div>
