@@ -78,7 +78,7 @@ const AddMember = ({ cancel, channelId }) => {
 
       return (
             <Modal>
-                  <div className="w-full max-h-[80dvh] overflow-y-auto py-3 p-6 max-w-2xl rounded-xl bg-white">
+                  <div className="w-full max-h-[80dvh] overflow-y-auto py-3 p-6 max-w-xl rounded-xl bg-white">
                         <div>
                               <div className="flex pb-3 justify-end">
                                     <svg

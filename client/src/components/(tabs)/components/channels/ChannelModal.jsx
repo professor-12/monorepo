@@ -41,7 +41,7 @@ const ChannelModal = ({ handleChangeModal }) => {
       })
       return (
             <Modal>
-                  <div className='bg-white px-6  p-3 pb-6 rounded-2xl w-full max-w-2xl'>
+                  <div className='bg-white px-6  p-3 pb-6 rounded-2xl w-full max-w-lg'>
                         <div className='flex justify-end'>
                               <svg onClick={() => { handleChangeModal(null) }} xmlns="http://www.w3.org/2000/svg" width="24" className='absolute top-4 right-4 rounded-full border-' height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                         </div>

@@ -100,7 +100,7 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
 
       return (
             <Modal>
-                  <div className='w-[80%] cursor-default max-w-2xl p-5 max-h-[80vh] overflow-auto rounded-2xl bg-white'>
+                  <div className='w-[80%] cursor-default max-w-xl p-5 max-h-[80vh] overflow-auto rounded-2xl bg-white'>
                         <div className='flex justify-between'>
                               <h1 className='text-lg'>Thread</h1>
                               <div className='cursor-pointer'>
