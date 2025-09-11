@@ -17,8 +17,6 @@ export const sendMessageContoller = async (req, res, next) => {
         channelId,
         authorId: id,
     });
-
-    console.log(safeData);
     const data = await prisma.message.create({
         data: {
             content: safeData.content,

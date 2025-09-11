@@ -4,17 +4,21 @@ import { timeAgo } from "../channels/Thread";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BASE_URL } from "@//lib/utils";
 import { useAuth } from "@//hooks/auth";
+import useProfile from "@//hooks/useProfile";
 
 const CommentSection = ({ postId }) => {
       const { user } = useAuth();
+      const profileData = useProfile()
       const queryClient = useQueryClient();
       const [comment, setComment] = useState("");
       const ref = useRef();
-      const posts = queryClient.getQueryData(["market"])?.data || [];
+      const posts = queryClient.getQueryData(["market"]) || [];
       useEffect(() => {
             ref?.current?.scrollIntoView({ behavior: "smooth" });
       }, [posts]);
 
+
+      console.log(profileData.data)
       // get comments for this post from the posts list query
       const post = posts.find((p) => p.id === postId);
       const comments = post?.comments || [];
@@ -40,33 +44,33 @@ const CommentSection = ({ postId }) => {
 
                   queryClient.setQueryData(["market"], (data) => {
 
-                        const posts = data?.data
+                        const posts = data
                         const newPost = posts.map((p) =>
                               p.id === postId
                                     ? {
                                           ...p,
                                           comments: [
+                                                ...p.comments,
                                                 {
                                                       id: Date.now(),
                                                       content,
                                                       createdAt: new Date().toISOString(),
                                                       author: {
                                                             profile: {
-                                                                  displayName: user?.name,
-                                                                  picture: user?.profilePicture,
+                                                                  displayName: profileData?.data?.data?.displayName,
+                                                                  picture: profileData?.data?.data?.picture,
                                                             },
                                                       },
                                                 },
-                                                ...p.comments,
                                           ],
                                     }
                                     : p
                         )
-                        return { data: newPost, ...data }
+                        return newPost
                   });
 
                   setComment("");
-                  return { data: previousPosts };
+                  return previousPosts
             },
             onError: (err, _, context) => {
                   queryClient.setQueryData(["market"], context.previousPosts);

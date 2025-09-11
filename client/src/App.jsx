@@ -10,6 +10,7 @@ import Profile from './pages/me/profile'
 import AccountLayout from './pages/me/layout'
 import HomePage from './pages/home'
 import TabProvider from './store/TabProvider'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { Outlet, Navigate } from "react-router-dom"
 import CampusConnect from './pages'
 

@@ -14,10 +14,10 @@ const MarketPlaceProvider = ({ children }) => {
       const handleOpenComment = (id) => {
             setOpenComment(() => id)
       }
-      const data = useQuery({ queryKey: ["market"], queryFn: async () => { return (await fetch(BASE_URL + "/posts").then(e => e.json())) } })
+      const data = useQuery({ queryKey: ["market"], queryFn: async () => { return (await fetch(BASE_URL + "/posts").then(e => e.json()))?.data } })
 
       return (
-            <MarketPlaceContext.Provider value={{ data: { ...data.data }, tab, handleChangeTab, openComment, handleOpenComment }}>{children}</MarketPlaceContext.Provider>
+            <MarketPlaceContext.Provider value={{ data, tab, handleChangeTab, openComment, handleOpenComment }}>{children}</MarketPlaceContext.Provider>
       )
 }
 

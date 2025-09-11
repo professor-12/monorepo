@@ -10,6 +10,8 @@ import { useState } from 'react'
 import useProfile from '@//hooks/useProfile'
 import { useAuthContext } from '@//components/AuthProvider'
 import AddMember from '@//components/modal/add-member'
+import ChannelNavigationSkeleton from '@//components/skeleton/ChannelNavigationSkeleton'
+import ThreadSkeleton from '@//components/skeleton/Thread'
 
 
 
@@ -71,7 +73,7 @@ export const Channel = () => {
                               <AddMember cancel={() => { setAddUser(null) }} channelId={addUser.id} />
                         }
                         <ul className="w-full max-h-[80vh] overflow-auto space-y-2 p-4">
-                              {(Array.isArray(data) ? data : [])?.map((a) => {
+                              {channelData.isLoading ? <ChannelNavigationSkeleton /> : (Array.isArray(data) ? data : [])?.map((a) => {
                                     const isActive = activeChannel?.id == a?.id
                                     const isOwner = a.createdBy.firebaseUid == user?.user?.uid && "group-hover:flex"
                                     return <li onClick={() => handleChangeChannel(a?.id)} className={`space-x-3 relative group p-2 cursor-pointer transition-colors duration-400  hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${isActive && "bg-[#E7E7E9] text-black hover:bg-[#E7E7E9]"}`}><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></span><span className='flex gap-3 items-center'>
@@ -83,6 +85,7 @@ export const Channel = () => {
                                           }
                                     </span></li>
                               })}
+
                         </ul>
                   </aside>
                   <div className='flex flex-1'>
@@ -90,9 +93,12 @@ export const Channel = () => {
                               <main className='flex-1 relative pb-[40px] h-[calc(100vh-32px)]   overflow-y-scroll bg-white'>
                                     <div>
                                           <TabHeader tabList={tabList} />
-                                          <Banner title={"#" + activeChannel?.name || ""} subtitle={"This is the very beginning of " + (activeChannel?.name || "") + " channel"}></Banner>
+                                          <Banner title={"#" + (activeChannel?.name || "Loading...")} subtitle={"This is the very beginning of " + (activeChannel?.name || "") + " channel"}></Banner>
                                           <div className='w-full  h-full pt-5'>
-                                                <Thread channel={{ ...activeChannel }} />
+                                                {
+                                                      channelData?.isLoading ? <ThreadSkeleton /> :
+                                                            <Thread channel={{ ...activeChannel }} />
+                                                }
                                           </div>
                                     </div>
                               </main>
