@@ -49,9 +49,10 @@ export const Channel = () => {
                               nes[findIndex] = { ...nes[findIndex], messages: [...nes[findIndex].messages, generateFakeMessage] }
                               return nes
                         })
+                        return queryClient.getQueryData(["channel"])
                   }, onSuccess: () => {
-                        queryClient.refetchQueries(["channel"])
                         setContent("")
+                        queryClient.refetchQueries(["channel"])
                   },
             onError: (err, _postId, context) => {
                   if (context?.prevData) {
