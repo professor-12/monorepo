@@ -1,3 +1,4 @@
+import { includes } from "zod";
 import { hashPassword } from "../lib/index.js";
 import { prisma } from "../lib/prisma.js";
 import { registerSchema } from "../schema/auth.schema.js";
@@ -41,15 +42,37 @@ export const createUser = async (req, res) => {
         data: {
             ...data,
             password: hashedPassword,
-            department: undefined,
+            department: data.department
+                ? { connect: { code: data.department } }
+                : undefined,
             profile: {
                 create: {
                     displayName: data.username,
                 },
             },
         },
+        include: {
+            department: true,
+        },
     });
-    console.log(user);
+
+    if (user.departmentId) {
+        const channel = await prisma.channel.findFirst({
+            where: { name: user.department.name },
+            select: { id: true },
+        });
+
+        if (channel) {
+            await prisma.channelMember.create({
+                data: {
+                    channelId: channel.id,
+                    userId: user.id,
+                    role: "MEMBER",
+                },
+            });
+        }
+    }
+
     return res.status(201).json({
         message: "User created",
         data: { ...user, password: undefined },
