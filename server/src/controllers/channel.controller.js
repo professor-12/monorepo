@@ -1,6 +1,24 @@
 import { includes } from "zod";
 import { AppError } from "../config/customerror.js";
 import { prisma } from "../lib/prisma.js";
+const avatars = [
+    "https://api.dicebear.com/7.x/adventurer/svg?seed=John",
+    "https://api.dicebear.com/7.x/bottts/svg?seed=Jane",
+    "https://api.dicebear.com/7.x/pixel-art/svg?seed=Alex",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
+    "https://api.dicebear.com/7.x/fun-emoji/svg?seed=Mike",
+    "https://api.dicebear.com/7.x/thumbs/svg?seed=Sarah",
+    "https://i.pravatar.cc/150?img=1",
+    "https://i.pravatar.cc/150?img=5",
+    "https://i.pravatar.cc/150?img=10",
+    "https://i.pravatar.cc/150?img=15",
+    "https://i.pravatar.cc/150?img=20",
+    "https://i.pravatar.cc/150?img=30",
+];
+
+function getRandomAvatar() {
+    return avatars[Math.floor(Math.random() * avatars.length)];
+}
 
 export const getChannels = async (req, res, next) => {
     try {
@@ -20,7 +38,6 @@ export const getChannels = async (req, res, next) => {
                     },
                 ],
             },
-            // take: 5,
             include: {
                 createdBy: { select: { firebaseUid: true } },
                 messages: {
@@ -29,14 +46,24 @@ export const getChannels = async (req, res, next) => {
                             include: {
                                 author: {
                                     select: {
-                                        profile: true,
+                                        profile: {
+                                            select: {
+                                                displayName: true,
+                                                picture: true,
+                                            },
+                                        },
                                     },
                                 },
                             },
                         },
                         author: {
                             select: {
-                                profile: true,
+                                profile: {
+                                    select: {
+                                        displayName: true,
+                                        picture: true,
+                                    },
+                                },
                             },
                         },
                     },
@@ -44,7 +71,34 @@ export const getChannels = async (req, res, next) => {
             },
         });
 
-        res.status(200).json(channels);
+        const formattedChannels = channels.map((channel) => {
+            if (channel.name === "anonymous") {
+                if (channel.createdBy?.profile) {
+                    channel.createdBy.profile.picture = getRandomAvatar();
+                    channel.createdBy.profile.displayName = ""; // clear username
+                }
+                channel.messages = channel.messages.map((msg) => {
+                    if (msg.author?.profile) {
+                        msg.author.profile.picture = getRandomAvatar();
+                        msg.author.profile.displayName = "";
+                    }
+
+                    // override authors of thread replies
+                    msg.threadReplies = msg.threadReplies.map((reply) => {
+                        if (reply.author?.profile) {
+                            reply.author.profile.picture = getRandomAvatar();
+                            reply.author.profile.displayName = "";
+                        }
+                        return reply;
+                    });
+
+                    return msg;
+                });
+            }
+            return channel;
+        });
+
+        res.status(200).json(formattedChannels);
     } catch (err) {
         next(err);
     }

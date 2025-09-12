@@ -49,7 +49,6 @@ export default Thread
 export const MessageItem = (props) => {
 
       const { content, threadReplies: replies, author, createdAt, isAnonymous, openThread } = props
-
       return (
             <div className='w-full group relative border-b border-border pb-1 last:border-0 flex'>
                   <div className='flex  gap-2 max-w-[40rem] w-full'>

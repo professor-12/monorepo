@@ -82,7 +82,7 @@ const CommentSection = ({ postId }) => {
 
 
       return (
-            <div className="cursor-default">
+            <div className="cursor-default w-full">
                   <div className="max-h-[60dvh] pb-5 space-y-3 overflow-y-auto">
                         {comments.map((comment, index) => {
                               const {
@@ -94,17 +94,23 @@ const CommentSection = ({ postId }) => {
                               return (
                                     <div key={index} className="border-b py-2">
                                           <div className="flex items-center gap-2">
-                                                <img
-                                                      src={profile?.picture || "/default-avatar.png"}
-                                                      alt={profile?.displayName || "User"}
-                                                      className="w-8 h-8 rounded-full"
-                                                />
-                                                <span className="font-medium">{profile?.displayName}</span>
-                                                <span className="text-xs text-gray-500">
-                                                      {timeAgo(createdAt)}
-                                                </span>
+                                                <div>
+                                                      <img
+                                                            src={profile?.picture || "/default-avatar.png"}
+                                                            alt={profile?.displayName || "User"}
+                                                            className="w-10 object-cover h-10 rounded-full"
+                                                      />
+                                                </div>
+                                                <div className="">
+                                                      <div className="flex items-center gap-2">
+                                                            <span className="font-medium">{profile?.displayName}</span>
+                                                            <span className="text-xs text-gray-500">
+                                                                  {timeAgo(createdAt)}
+                                                            </span>
+                                                      </div>
+                                                      <p className="text-sm">{content}</p>
+                                                </div>
                                           </div>
-                                          <p className="ml-10 text-sm">{content}</p>
                                     </div>
                               );
                         })}
