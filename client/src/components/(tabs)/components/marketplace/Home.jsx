@@ -101,12 +101,16 @@ const Home = () => {
                                                       openComment &&
                                                       <Modal>
                                                             <div className='w-full relative max-w-xl max-h-[80dvh] overflow-y-hidden overflow-x-hidden h-auto p-4 px-8 rounded-3xl bg-white pb-4'>
-                                                                  <div className='w-full relative'>
-                                                                        <div className='flex justify-end'>
-                                                                              <svg onClick={() => { handleOpenComment(null) }} xmlns="http://www.w3.org/2000/svg" width="24" className='absolute top-4 right-4 rounded-full border-' height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+
+                                                                  <div className='flex pb-5 items-center justify-between'>
+                                                                        <h1 className='text-nowrap'>Comment Section</h1>
+                                                                        <div className='w-full relative'>
+                                                                              <div className='flex justify-end'>
+                                                                                    <svg onClick={() => { handleOpenComment(null) }} xmlns="http://www.w3.org/2000/svg" width="24" className='absolute top-4 right-4 rounded-full border-' height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                                                              </div>
                                                                         </div>
-                                                                        <CommentSection postId={openComment} />
                                                                   </div>
+                                                                  <CommentSection postId={openComment} />
                                                             </div>
                                                       </Modal>
                                                 }
@@ -119,9 +123,9 @@ const Home = () => {
                                                                               <div onClick={() => { navigateToProfile(item?.author?.profile?.displayName) }} style={{ backgroundImage: `url('${item?.author?.profile?.picture}')` }} className={`absolute top-[calc(100%-30px)] left-4 cursor-pointer w-12 h-12 bg-cover bg-center bg-[url('/assets_.webp')] ring-white ring-4 rounded-xl`}></div>
                                                                         </div>
                                                                         <div className='p-3 pt-10 space-y-1'>
-                                                                              <div className='h-[5.8rem]'>
+                                                                              <div className='h-[5.5rem]'>
                                                                                     <h1 onClick={() => { navigateToProfile(item?.author?.profile?.displayName) }} className='font-medium hover:text-primary hover:underline cursor-pointer text-sm'>{item?.author?.profile?.displayName}</h1>
-                                                                                    <p className='text-xs text-gray-600'>{item?.content}</p>
+                                                                                    <p className='text-xs line-clamp-6  text-gray-600'>{item?.content}</p>
                                                                               </div>
                                                                               <div className='flex space-x-3 pt-10  justify-start items-center'>
                                                                                     {/* Reaction */}
@@ -132,7 +136,6 @@ const Home = () => {
                                                                                           }
                                                                                     </button>
 
-                                                                                    {/* Comments */}
                                                                                     <span className='font-bold text-sm'>
                                                                                           <button onClick={() => { handleOpenComment(item?.id) }} className='cursor-pointer gap-1 text-sm text flex items-center rounded-md'>
                                                                                                 <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-dashed-icon lucide-message-circle-dashed"><path d="M10.1 2.182a10 10 0 0 1 3.8 0" /><path d="M13.9 21.818a10 10 0 0 1-3.8 0" /><path d="M17.609 3.72a10 10 0 0 1 2.69 2.7" /><path d="M2.182 13.9a10 10 0 0 1 0-3.8" /><path d="M20.28 17.61a10 10 0 0 1-2.7 2.69" /><path d="M21.818 10.1a10 10 0 0 1 0 3.8" /><path d="M3.721 6.391a10 10 0 0 1 2.7-2.69" /><path d="m6.163 21.117-2.906.85a1 1 0 0 1-1.236-1.169l.965-2.98" /></svg><span className='font-normal text-xs'>{item?.comments?.length}</span>
