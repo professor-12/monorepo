@@ -34,7 +34,7 @@ const CampusConnect = () => {
       }, []);
 
       return (
-            <div>
+            <div className="con">
                   <section className="Nav">
                         <div className="nav-left">
                               <img className="img1" src="Images/CampuzLogo.png" alt="Campus Logo" />
