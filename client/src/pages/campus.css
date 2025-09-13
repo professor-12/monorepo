@@ -1,8 +1,8 @@
 :root {
-    --main-brand-color: #00356b;
+    --main-brand-color: #00356B;
     --secondary-brand-color: white;
-    --section-background-color: #fafafa;
-    --text-color: #2e2e2e;
+    --section-background-color: #FAFAFA;
+    --text-color: #2E2E2E;
 }
 
 .Nav {
@@ -12,26 +12,33 @@
     height: 1rem;
     gap: 2rem;
     align-items: center;
-    justify-items: center;
-    justify-content: center;
     margin-inline: auto;
     top: 0;
     z-index: 1000;
 }
 
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
 .img1 {
-    width: 15%;
+    width: 40%
 }
 
 .nav-links {
     display: flex;
     gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
     list-style: none;
 }
 
 .nav-links a {
     color: var(--main-brand-color);
     cursor: pointer;
+    align-items: center;
     transition: transform 0.3s ease-in-out;
     transform-origin: center;
     display: inline-block;
@@ -42,11 +49,13 @@
 
 .nav-links a:hover {
     transform: scale(1.2);
+
 }
 
 .nav-container {
     display: flex;
     gap: 2rem;
+    align-items: center;
 }
 
 .nav-container .button {
@@ -71,8 +80,10 @@
 .btn {
     background-color: var(--secondary-brand-color);
     border: 1px solid var(--main-brand-color);
-    padding: 0.2rem 1rem;
+    padding: 0.8rem 1rem;
     border-radius: 10px;
+    display: flex;
+    gap: 5rem;
     transition: all 0.3s ease;
 }
 
@@ -90,7 +101,7 @@
 }
 
 .btn a:hover {
-    color: var(--secondary-brand-color);
+    color: var(--secondary-brand-color)
 }
 
 .hero {
@@ -106,6 +117,7 @@
 .hero-text {
     font-size: 30px;
     line-height: 1.5;
+
 }
 
 .hero-text p {
@@ -125,12 +137,11 @@
 }
 
 .btn2 {
-    padding: 1rem 1rem;
-    display: inline-flex;
-    align-items: center;
+    padding: 0.75rem 2rem;
     background-color: var(--secondary-brand-color);
     border: 1px solid var(--main-brand-color);
     border-radius: 20px;
+    margin-bottom: 1rem;
     transition: background-color 0.3s ease;
 }
 
@@ -148,7 +159,7 @@
 
 .Features {
     margin-top: 8rem;
-    background-color: var(--secondary-brand-color);
+    background-color: var(--secondary-brand-color)
 }
 
 .Features h2 {
@@ -163,12 +174,13 @@
     height: 20rem;
     padding: 2rem;
     margin-left: 100px;
+
 }
 
 .features-box {
     display: flex;
     gap: 15px;
-    color: var(--text-color);
+    color: var(--text-color)
 }
 
 .icon {
@@ -193,7 +205,7 @@
     justify-content: center;
     justify-items: center;
     border-radius: 10px;
-    border: 1px solid var(--main-brand-color);
+    border: 1px solid var(--main-brand-color)
 }
 
 .icons {
@@ -227,7 +239,7 @@
     justify-content: center;
     justify-items: center;
     border-radius: 10px;
-    border: 1px solid var(--main-brand-color);
+    border: 1px solid var(--main-brand-color)
 }
 
 .benefit-card p {
@@ -239,11 +251,13 @@
     font-size: 30px;
     align-items: center;
     margin-top: 10rem;
+
 }
 
 .Benefits {
     margin-bottom: 15rem;
     margin-left: 100px;
+
 }
 
 .Benefits h2 {
@@ -321,6 +335,7 @@
     align-items: center;
     margin-top: 15rem;
     padding: 30rem;
+
 }
 
 .CTA {
@@ -332,6 +347,7 @@
 
 .img2 {
     height: auto;
+
 }
 
 .CTA h2 {
@@ -365,10 +381,12 @@
     transition: all 0.3 ease;
     cursor: pointer;
     border: 1px solid var(--main-brand-color);
+    transition: all 0.3s ease;
 }
 
 .btn3 a {
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .btn3:hover {
@@ -377,12 +395,16 @@
     border: 1px solid #f1f11c;
 }
 
+.btn3 a:hover {
+    color: #f1f11c;
+}
+
 .footer {
     background-color: rgb(243, 243, 243);
     color: var(--text-color);
     margin-top: 5rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 4rem 10rem;
     gap: 3rem 2rem;
 }
@@ -390,6 +412,11 @@
 .img3 {
     width: 70%;
     background-image: rgb(243, 243, 243);
+}
+
+.img4 {
+    width: 50%;
+
 }
 
 .footer_socials {
@@ -430,7 +457,7 @@
 .quick-links li {
     line-height: 2;
     list-style: none;
-    color: var(--text-color);
+    color: var(--text-color)
 }
 
 .quick-links a {
@@ -472,28 +499,37 @@
     color: var(--text-color);
 }
 
+
+
 @media (max-width: 1024px) {
+
     .hamburger {
         display: block;
         cursor: pointer;
+        color: white;
         margin-left: auto;
+        margin-top: -5rem;
+    }
+
+    .img1 {
+        width: 15%;
+        margin-top: -1.4rem;
     }
 
     .nav-links {
         display: none;
-
         flex-direction: column;
+        position: absolute;
         align-items: stretch;
         gap: 1rem;
         width: 100%;
         background-color: rgba(0, 53, 107, 0.95);
-        padding: 1.5rem 0;
         border-radius: 10px;
-        margin-top: 1rem;
     }
 
     .nav-links.active {
         display: flex;
+
     }
 
     .nav-links a {
@@ -508,35 +544,43 @@
 
     .nav-links a:hover {
         background-color: rgba(255, 255, 255, 0.2);
-        transform: scale(1xc/05);
+        transform: scale(1.xc/05);
+    }
+
+    .nav-container {
+        position: relative;
     }
 
     .Nav {
         flex-direction: column;
         background-color: var(--main-brand-color);
-        padding: 1rem;
         gap: 0.5rem;
         align-items: stretch;
         position: sticky;
-        top: 0;
-        z-index: 1000;
+
     }
 
     .Nav h1 {
         color: white;
         align-self: center;
         margin-bottom: 0.5rem;
+
     }
 
     .btn {
-        width: 100%;
-        margin: 0.5rem 0;
+        width: 16%;
         text-align: center;
+        margin-top: -5rem;
     }
 
     .btn a {
         display: block;
         padding: 0.5rem 0;
+        font-size: 15px;
+    }
+
+    .nav-links.active+.btn {
+        display: block;
     }
 
     .hero {
@@ -572,6 +616,7 @@
         margin: 0.5rem auto;
         display: block;
     }
+
 
     .Features,
     .Process,
@@ -651,6 +696,10 @@
         text-align: left;
     }
 
+    .img3 {
+        width: 50%;
+    }
+
     .subscribe input,
     .subscribe .sub {
         width: 100%;
@@ -658,6 +707,7 @@
         margin: 0.5rem auto;
     }
 }
+
 
 @media (max-width: 768px) {
     body {
@@ -668,8 +718,25 @@
         font-size: 1.5rem;
     }
 
+    .img1 {
+        margin-bottom: -2.2rem;
+    }
+
     .nav-links a {
         font-size: 1rem;
+    }
+
+    .hamburger {
+        margin-bottom: -5rem;
+    }
+
+    .btn {
+        margin-bottom: -5rem;
+        width: 15%
+    }
+
+    .btn a {
+        font-size: 10px;
     }
 
     .hero-text {
@@ -678,6 +745,11 @@
 
     .extra {
         font-size: 2.5rem;
+    }
+
+    .img2 {
+        width: 60%;
+        height: 80%;
     }
 
     .Features h2,

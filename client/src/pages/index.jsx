@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import "./campus.css";
-// import "@fortawesome/fontawesome-free/css/all.min.css";
-// import "remixicon/fonts/remixicon.css";
+import "./campus.css"; // your CSS file
 
-export default function CampusConnect() {
+const CampusConnect = () => {
       useEffect(() => {
             const hamburger = document.querySelector(".hamburger");
             const navLinks = document.querySelector(".nav-links");
@@ -16,13 +14,19 @@ export default function CampusConnect() {
                   navLinks.classList.remove("active");
             };
 
-            hamburger.addEventListener("click", toggleMenu);
+            if (hamburger) {
+                  hamburger.addEventListener("click", toggleMenu);
+            }
+
             document.querySelectorAll(".nav-links a").forEach((link) => {
                   link.addEventListener("click", closeMenu);
             });
 
+            // Cleanup
             return () => {
-                  hamburger.removeEventListener("click", toggleMenu);
+                  if (hamburger) {
+                        hamburger.removeEventListener("click", toggleMenu);
+                  }
                   document.querySelectorAll(".nav-links a").forEach((link) => {
                         link.removeEventListener("click", closeMenu);
                   });
@@ -31,9 +35,10 @@ export default function CampusConnect() {
 
       return (
             <div>
-                  {/* ================= NAV ================= */}
                   <section className="Nav">
-                        <img className="img1" src="Images/IMG-20250908-WA0020.jpg" alt="Logo" />
+                        <div className="nav-left">
+                              <img className="img1" src="Images/CampuzLogo.png" alt="Campus Logo" />
+                        </div>
                         <div className="nav-container">
                               <button className="hamburger" aria-label="Toggle navigation">
                                     <i className="fas fa-bars"></i>
@@ -46,7 +51,7 @@ export default function CampusConnect() {
                               </ul>
                               <button className="btn">
                                     <a href="https://monorepo-smoky-two.vercel.app/auth/login">
-                                          <i className="fas fa-user"></i> Login
+                                          <span><i className="fas fa-user"></i></span> Login
                                     </a>
                               </button>
                               <button className="btn">
@@ -57,25 +62,26 @@ export default function CampusConnect() {
                         </div>
                   </section>
 
-                  {/* ================= HERO ================= */}
                   <section className="hero">
                         <div className="hero-text">
                               Stay <span className="extra">Connected.</span><br />
                               Learn <span className="extra">Smarter.</span><br />
                               Live Campus <span className="extra">Better.</span>
                               <p>
-                                    Campus Connect is your digital hub for collaboration, resources,
-                                    and campus life all in one place.
+                                    Campus Connect is your digital hub for
+                                    collaboration, resources, and campus
+                                    life all in one place.
                               </p>
-                              <div className="space-x-4 pt-6">
-                                    <button className="btn2"><a href="/auth/register">Get Started</a></button>
-                                    <button className="btn2"><a href="#">Learn More</a></button>
-                              </div>
+                              <button className="btn2"><a href="#">Get Started</a></button>
+                              <button className="btn2"><a href="#">Learn More</a></button>
                         </div>
-                        <img className="img" src="Images/bdd4b5eecef38a4b3d3581b8b2b4dbdd.jpg" alt="Hero" />
+                        <img
+                              className="img"
+                              src="Images/bdd4b5eecef38a4b3d3581b8b2b4dbdd.jpg"
+                              alt="Hero"
+                        />
                   </section>
 
-                  {/* ================= FEATURES ================= */}
                   <section className="Features">
                         <h2>Features</h2>
                         <div className="features">
@@ -110,26 +116,24 @@ export default function CampusConnect() {
                         </div>
                   </section>
 
-                  {/* ================= PROCESS ================= */}
                   <section className="Process">
                         <h2>How It Works</h2>
                         <div className="process-cards">
                               <div className="process-card">
-                                    <span className="icons"><i className="fas fa-user-check"></i></span>
+                                    <span className="icons"><i className="fas fa-user-check"></i></span><br />
                                     <p>Sign up & Verify</p>
                               </div>
                               <div className="process-card">
-                                    <span className="icons"><i className="fa-solid fa-users"></i></span>
+                                    <span className="icons"><i className="fa-solid fa-users"></i></span><br />
                                     <p>Join Channels & Communities</p>
                               </div>
                               <div className="process-card">
-                                    <span className="icons"><i className="fas fa-project-diagram"></i></span>
+                                    <span className="icons"><i className="fas fa-project-diagram"></i></span><br />
                                     <p>Connect, Share and Learn</p>
                               </div>
                         </div>
                   </section>
 
-                  {/* ================= BENEFITS ================= */}
                   <section className="Benefits">
                         <h2>Benefits</h2>
                         <div className="benefit-cards">
@@ -148,25 +152,30 @@ export default function CampusConnect() {
                         </div>
                   </section>
 
-                  {/* ================= ABOUT US ================= */}
                   <section className="About-Us">
                         <h2>About Us</h2>
                         <p>
-                              Campuz Connect is your all-in-one digital campus hub. We make it
-                              easier for students to connect, share knowledge, and access
-                              resources anytime, anywhere.
+                              Campuz Connect is your all-in-one digital campus hub.
+                              We make it easier for students to connect, share knowledge,
+                              and access resources anytime, anywhere.
                         </p>
                         <h4>Our goal is simple:</h4>
                         <div className="AUBoxs">
                               <div className="A-U-Box">
                                     <span className="iconz"><i className="fas fa-lightbulb"></i></span>
                                     <h3>Learn Smarter</h3>
-                                    <p>Get access to study groups, past questions, and academic tools.</p>
+                                    <p>
+                                          Get access to study groups, past questions,
+                                          and academic tools.
+                                    </p>
                               </div>
                               <div className="A-U-Box">
                                     <span className="iconz"><i className="fas fa-users"></i></span>
                                     <h3>Connect Faster</h3>
-                                    <p>Get through discussion forums, chat, and real-time collaboration.</p>
+                                    <p>
+                                          Get through discussion forums, chat, and
+                                          real-time collaboration.
+                                    </p>
                               </div>
                               <div className="A-U-Box">
                                     <span className="iconz"><i className="fas fa-globe"></i></span>
@@ -179,17 +188,16 @@ export default function CampusConnect() {
                         </div>
                         <span className="texts">
                               <i>
-                                    With Campuz Connect, you don't just study on campus - you live
-                                    connected.
+                                    With Campuz Connect, you don't just study on campus - you live connected.
                               </i>
                         </span>
                   </section>
 
-                  {/* ================= CTA ================= */}
                   <section className="CTA">
                         <div className="CTA-container">
                               <h2>
-                                    Ready to Build Your Digital <span className="extra1">Campus</span>
+                                    Ready to Build Your Digital
+                                    <span className="extra1">Campus</span>
                                     <span className="extra2">?</span>
                               </h2>
                               <p>
@@ -207,18 +215,15 @@ export default function CampusConnect() {
                         />
                   </section>
 
-                  {/* ================= FOOTER ================= */}
                   <section className="footer">
-                        <div className="img3">
-                              <img className="img3" src="Images/IMG-20250908-WA0020.jpg" alt="Logo" />
-                        </div>
-
                         <div className="towers">
-                              <h2>Campuz Connect</h2>
+                              <div className="flex">
+                                    <img className="img4" src="Images/CampuzLogo.png" alt="Footer Logo" />
+                              </div>
                               <p>
-                                    Discover a smarter way to stay updated, share resources, and connect
-                                    with your campus community. Campuz Connect is your all-in-one academic
-                                    and social platform.
+                                    Discover a smarter way to stay updated,
+                                    share resources, and connect with your campus community.
+                                    Campuz Connect is your all-in-one academic and social platform.
                               </p>
                               <ul className="footer_socials">
                                     <li><a href="#"><i className="fab fa-linkedin"></i></a></li>
@@ -247,4 +252,6 @@ export default function CampusConnect() {
                   </section>
             </div>
       );
-}
+};
+
+export default CampusConnect;
