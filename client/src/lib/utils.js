@@ -8,7 +8,7 @@ export function cn(...inputs) {
 export const tabList = [
     { name: "For you", id: "for-you" },
     { name: "Channel", id: "channel" },
-    { name: "Popular", id: "popular" },
+    { name: "Market", id: "market" },
     { name: "Event", id: "event" },
     // { name: "Market", id: "market-place" },
 ];
