@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton'
 
 const PostSkeleton = () => {
       return (
-            <div className='grid gap-4 grid-cols-3'>
+            <div className='grid gap-4 max-md:grid-cols-2 grid-cols-3'>
                   {
                         new Array(6).fill(null).map((_, indx) => (
                               <div key={indx} className='rounded-md overflow-hidden'>
