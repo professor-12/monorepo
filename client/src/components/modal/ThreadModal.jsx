@@ -119,7 +119,7 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
                                                 <p className='font-medium leading-0'>{!isAnonymous && author?.profile?.displayName}</p>
                                                 <p className='text-[12px] text-slate-950/50'>{timeAgo(createdAt)}</p>
                                           </div>
-                                          <div className='text-slate-800'>{content}</div>
+                                          <div className='text-slate-800 text-sm'>{content}</div>
                                           <span onClick={() => openThread(props)} className='text-xs cursor-pointer transition-all duration-300 hidden group-hover:flex pt-4 font-medium text-primary tracking-tight leading-0.5'>
                                                 {replies?.length > 0 ? replies?.length + " " + `repl${replies?.length > 1 ? 'ies' : "y"}` : "Reply"}
                                           </span>

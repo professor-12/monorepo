@@ -11,7 +11,7 @@ const Context = ({ children, value }) => {
       return (
             <ModalContext.Provider value={value}>
                   {
-                        createPortal(<div className='fixed z-[99999]  backdrop-blur-xs bg-black/40 cursor-pointer inset-0 flex items-center justify-center'>
+                        createPortal(<div className='fixed z-[99999] max-sm:px-2 backdrop-blur-xs bg-black/40 cursor-pointer inset-0 flex items-center justify-center'>
                               {children}
                         </div>, document.body)
                   }

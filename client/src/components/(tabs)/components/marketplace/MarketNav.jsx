@@ -8,7 +8,7 @@ const MarketNav = () => {
             <div className='p-2'>
                   <ul className='space-y-1'>
                         {["Home", "My Post", "Liked Post", "Mentions"].map((a, index) => {
-                              return <li onClick={(e) => handleChangeTab(a)} className={`space-x-3 p-2 cursor-pointer transition-colors duration-400  hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${tab == a && "bg-[#E4E4E7]"}`}><span>{svgs[index]}</span><span>{a}</span></li>
+                              return <li onClick={(e) => handleChangeTab(a)} className={`space-x-3 p-2 text-sm cursor-pointer transition-colors duration-400  hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${tab == a && "bg-[#E4E4E7]"}`}><span>{svgs[index]}</span><span>{a}</span></li>
                         })}
                   </ul>
             </div>

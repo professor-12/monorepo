@@ -90,13 +90,13 @@ const Home = () => {
             <>
                   <Banner></Banner>
                   <div className='w-full relative pt-5 pb-6'>
-                        <div className='w-full px-5'>
+                        <div className='w-full md:px-5'>
                               <div className='px-4 w-full h-12 flex items-center text-lg fontfont-medium '>
                                     <h1 className='font-medium'>Featured Posts</h1>
                               </div>
                               {
                                     !data?.isLoading ?
-                                          <div className='grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-2'>
+                                          <div className='grid max-sm:grid-cols-1 grid-cols-3  max-lg:grid-cols-2'>
                                                 {
                                                       openComment &&
                                                       <Modal>

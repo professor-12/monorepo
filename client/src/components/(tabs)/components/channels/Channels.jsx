@@ -65,7 +65,7 @@ export const Channel = () => {
 
       return (
             <div className='w-full relatives h-full flex'>
-                  <aside className='w-[20rem] min-w-[20rem] h-full'>
+                  <aside className='w-[20rem] max-md:hidden min-w-[20rem] h-full'>
                         <div className='border-b  border-border w-full h-12 flex items-center text-lg fontfont-medium p-2 px-4'>
                               Channels
                         </div>

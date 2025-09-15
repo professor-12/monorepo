@@ -44,7 +44,7 @@ const AddPost = ({ handleChangeModal }) => {
 
       return (
             <Modal>
-                  <div className='w-[85%] space-y-8 p-4 px-6 max-h-[80vh]  overflow-auto cursor-default max-w-xl bg-white  rounded-3xl'>
+                  <div className='w-full space-y-8 p-4 px-6 max-h-[80vh]  overflow-auto cursor-default max-w-xl bg-white  rounded-3xl'>
                         <div className='space-y-3'>
                               <div className='flex justify-between cursor-pointer'>
                                     <h1 className='text-lg'>Add Post</h1>
