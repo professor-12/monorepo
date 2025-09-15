@@ -91,7 +91,7 @@ export const Channel = () => {
                   </aside>
                   <div className='flex flex-1'>
                         <div className='w-full flex-1 relative'>
-                              <main className='flex-1 relative pb-[40px] h-[calc(100vh-32px)]   overflow-y-scroll bg-white'>
+                              <main className='flex-1 relative pb-[40px] h-[calc(100dvh-32px)]   overflow-y-scroll bg-white'>
                                     <div>
                                           <TabHeader tabList={tabList} />
                                           <Banner title={"#" + (activeChannel?.name || "Loading...")} subtitle={"This is the very beginning of " + (activeChannel?.name || "") + " channel"}></Banner>
