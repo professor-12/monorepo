@@ -32,7 +32,15 @@ const Thread = ({ channel }) => {
             <div className="py-3 flex-1 space-y-6  px-4">
                   {
                         channel?.messages?.filter(a => a.threadRootId === null).map((item) => {
-                              return <MessageItem openThread={(d) => setOpenThread(d)}  {...item} isAnonymous={isAnonymous} />
+                              return <MessageItem 
+                                    key={item.id}
+                                    openThread={(d) => setOpenThread(d)}  
+                                    content={item.content}
+                                    threadReplies={item.threadReplies}
+                                    author={item.author}
+                                    createdAt={item.createdAt}
+                                    isAnonymous={isAnonymous} 
+                              />
                         })
                   }
                   {openThread && <ThreadModal handleClose={() => { setOpenThread(null) }} isAnonymous={isAnonymous} thread={openThread} />}
