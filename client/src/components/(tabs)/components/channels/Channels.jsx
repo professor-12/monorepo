@@ -64,22 +64,22 @@ export const Channel = () => {
       const [addUser, setAddUser] = useState(null)
 
       return (
-            <div className='w-full relatives h-full flex'>
-                  <aside className='w-[20rem] max-md:hidden min-w-[20rem] h-full'>
-                        <div className='border-b  border-border w-full h-12 flex items-center text-lg fontfont-medium p-2 px-4'>
+            <div className='w-full relatives h-full flex flex-col md:flex-row'>
+                  <aside className='w-full md:w-[20rem] h-auto md:h-full border-b md:border-b-0 md:border-r border-border'>
+                        <div className='border-b border-border w-full h-12 flex items-center text-lg font-medium p-2 px-4'>
                               Channels
                         </div>
                         {
                               addUser &&
                               <AddMember cancel={() => { setAddUser(null) }} channelId={addUser.id} />
                         }
-                        <ul className="w-full max-h-[80vh] overflow-auto space-y-2 p-4">
+                        <ul className="w-full max-h-[40vh] md:max-h-[80vh] overflow-auto space-y-2 p-4">
                               {channelData.isLoading ? <ChannelNavigationSkeleton /> : (Array.isArray(data) ? data : [])?.map((a) => {
                                     const isActive = activeChannel?.id == a?.id
                                     const isOwner = a.createdBy.firebaseUid == user?.user?.uid && "group-hover:flex"
-                                    return <li onClick={() => handleChangeChannel(a?.id)} className={`space-x-3 relative group p-2 cursor-pointer transition-colors duration-400  hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${isActive && "bg-[#E7E7E9] text-black hover:bg-[#E7E7E9]"}`}><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></span><span className='flex gap-3 items-center'>
-                                          <div onClick={(e) => { e.stopPropagation(); setAddUser(a) }} className={`hidden absolute  right-3 ${isOwner}`}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg></div>
-                                          <span>
+                                    return <li onClick={() => handleChangeChannel(a?.id)} className={`space-x-3 relative group p-2 cursor-pointer transition-colors duration-400 hover:bg-[#E4E4E7] rounded-md px-3 flex items-center ${isActive && "bg-[#E7E7E9] text-black hover:bg-[#E7E7E9]"}`}><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9" /><line x1="4" x2="20" y1="15" y2="15" /><line x1="10" x2="8" y1="3" y2="21" /><line x1="16" x2="14" y1="3" y2="21" /></svg></span><span className='flex gap-3 items-center'>
+                                          <div onClick={(e) => { e.stopPropagation(); setAddUser(a) }} className={`hidden absolute right-3 ${isOwner}`}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg></div>
+                                          <span className='truncate'>
                                                 {a?.name}
                                           </span> {a.visibility == "PRIVATE" &&
                                                 <Lock />
