@@ -11,6 +11,7 @@ export const post = async (req, res, next) => {
                 },
             },
             comments: {
+                orderBy: { createdAt: "asc" },
                 include: {
                     author: {
                         select: {

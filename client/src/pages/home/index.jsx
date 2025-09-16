@@ -1,3 +1,4 @@
+import Event from '@//components/(tabs)/components/event/page'
 import MarketPlace from '@//components/(tabs)/components/marketplace/MarketPlace'
 import MarketPlaceProvider from '@//store/MarketPlaceProvider'
 import { useTab } from '@//store/TabProvider'
@@ -17,6 +18,8 @@ const HomePage = () => {
                         return <ChannelProvider>
                               <Channel />
                         </ChannelProvider>
+                  case "event":
+                        return <Event />
                   default:
                         return (<MarketPlaceProvider>
                               <MarketPlace></MarketPlace>

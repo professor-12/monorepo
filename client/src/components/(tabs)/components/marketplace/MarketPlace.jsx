@@ -1,10 +1,7 @@
 import React from 'react'
-import Banner from '../../../Banner'
 import { useMarketPlace } from '@//store/MarketPlaceProvider'
-import { BASE_URL, tabList } from '@//lib/utils'
+import { tabList } from '@//lib/utils'
 import TabHeader from '../header'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '@/hooks/auth'
 
 import MarketNav from './MarketNav'
 import Home from './Home'
