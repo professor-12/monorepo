@@ -30,15 +30,15 @@ const Signup = () => {
       }, [isSuccess, navigate])
 
       return (
-            <div className='w-[95%] sm:w-[80%] lg:w-[60%] mx-auto h-auto px-2 py-4'>
-                  <div className='w-full max-w-md mx-auto'>
-                        <div className='text-center mb-6'>
-                              <h1 className='text-2xl font-bold'>Welcome on board!</h1>
-                              <p className="text-sm text-muted-foreground mt-2">Please fill up your credentials</p>
+            <div className='w-[80%] lg:w-[60%] mx-auto h-auto px-2'>
+                  <div className='w-full'>
+                        <div>
+                              <h1 className='text-xl'>Welcome on board!</h1>
+                              <p className="text-sm text-muted-foreground">Please fill up your credentials</p>
                         </div>
                         <div className='w-full mt-6'>
                               <Form {...form}>
-                                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                                           <FormField
                                                 control={form.control}
                                                 name="email"
@@ -52,11 +52,12 @@ const Signup = () => {
                                                       </FormItem>
                                                 )}
                                           />
-                                          <div className="flex flex-col sm:flex-row gap-3">
+                                          <div className="flex gap-3">
                                                 <div className="flex-1">
                                                       <FormField
                                                             control={form.control}
                                                             name="username"
+
                                                             render={({ field }) => (
                                                                   <FormItem className="flex-1">
                                                                         <FormLabel>Username</FormLabel>
@@ -147,11 +148,11 @@ const Signup = () => {
                                                       </FormItem>
                                                 )}
                                           />
-                                          <Button type="submit" className="w-full h-12 text-base" disabled={isPending}>Create account</Button>
+                                          <Button type="submit" className="w-full" disabled={isPending}>Create account</Button>
                                     </form>
                               </Form>
                         </div>
-                        <p className="text-sm py-4 text-center">Already a member? <Link className="text-primary font-medium" to={"/auth/login"}>Sign in</Link></p>
+                        <p className="text-xs py-4">Already a member? <Link className="text-primary" to={"/auth/login"}>Sign in</Link></p>
                   </div>
             </div >
       )

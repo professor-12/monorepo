@@ -11,9 +11,10 @@ import {
       PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function Calendar24() {
+export function Calendar24(props) {
+      const {  date, setDate } = props
       const [open, setOpen] = React.useState(false)
-      const [date, setDate] = React.useState(undefined)
+      
 
       return (
             <div className="flex items-center gap-4">
