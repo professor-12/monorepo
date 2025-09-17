@@ -43,6 +43,7 @@ export const getChannels = async (req, res, next) => {
                 messages: {
                     include: {
                         threadReplies: {
+                            orderBy: { createdAt: "asc" },
                             include: {
                                 author: {
                                     select: {

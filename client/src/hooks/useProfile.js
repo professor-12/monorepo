@@ -10,6 +10,8 @@ const useProfile = () => {
     // const realParms = new URLSearchParams(params.toString());
     const xnd = params.get("xnd");
 
+    console.log(xnd)
+
     // const { data, error, fetchData, loading } = useFetch();
     const { user } = useAuth();
     return useQuery({
@@ -19,7 +21,7 @@ const useProfile = () => {
                 headers: { Authorization: "Bearer " + user.uid },
             }).then((e) => e.json());
         },
-        refetchOnMount: true,
+        // refetchOnMount: true,
         initialData: {},
     });
 };
