@@ -13,12 +13,14 @@ const CommentSection = ({ postId }) => {
       const [comment, setComment] = useState("");
       const ref = useRef();
       const posts = queryClient.getQueryData(["market"]) || [];
+
+
       useEffect(() => {
             ref?.current?.scrollIntoView({ behavior: "smooth" });
       }, [posts]);
 
 
-      console.log(profileData.data)
+
       // get comments for this post from the posts list query
       const post = posts.find((p) => p.id === postId);
       const comments = post?.comments || [];
@@ -68,7 +70,6 @@ const CommentSection = ({ postId }) => {
                         )
                         return newPost
                   });
-
                   setComment("");
                   return previousPosts
             },
@@ -105,7 +106,7 @@ const CommentSection = ({ postId }) => {
                                                       <div className="flex items-center gap-2">
                                                             <span className="font-medium">{profile?.displayName}</span>
                                                             <span className="text-xs text-gray-500">
-                                                                  {timeAgo(createdAt)}
+                                                                  {timeAgo(new Date(createdAt).toISOString())}
                                                             </span>
                                                       </div>
                                                       <p className="text-sm">{content}</p>

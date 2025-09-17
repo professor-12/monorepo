@@ -24,6 +24,7 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
       const { author, content, threadReplies: replies = [], createdAt, channelId, id: messageId } =
             freshThread || thread
 
+
       const [reply, setReply] = useState("")
       const { mutate, error } = useMutation({
             mutationKey: ["reply", channelId, messageId],
@@ -117,7 +118,7 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
                                     <div className=''>
                                           <div className='flex gap-2 items-center'>
                                                 <p className='font-medium leading-0'>{!isAnonymous && author?.profile?.displayName}</p>
-                                                <p className='text-[12px] text-slate-950/50'>{timeAgo(createdAt)}</p>
+                                                <p className='text-[12px] text-slate-950/50'>{timeAgo(new Date(createdAt).toISOString())}</p>
                                           </div>
                                           <div className='text-slate-800 text-sm'>{content}</div>
                                           <span onClick={() => openThread(props)} className='text-xs cursor-pointer transition-all duration-300 hidden group-hover:flex pt-4 font-medium text-primary tracking-tight leading-0.5'>
@@ -127,7 +128,7 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
                               </div>
                               {
                                     replies.map((e, index) => {
-                                          const { author, content } = e
+                                          const { author, content, createdAt } = e
 
                                           return (
                                                 <Fragment key={index}>
