@@ -26,7 +26,7 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
 
 
       const [reply, setReply] = useState("")
-      const { mutate, error } = useMutation({
+      const { mutate, error, isPending } = useMutation({
             mutationKey: ["reply", channelId, messageId],
             mutationFn: async ({ attachments }) => {
                   // return;
@@ -117,7 +117,9 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
                                     </div>
                                     <div className=''>
                                           <div className='flex gap-2 items-center'>
-                                                <p className='font-medium leading-0'>{!isAnonymous && author?.profile?.displayName}</p>
+                                                <p className='font-medium leading-0'>
+                                                      {!isAnonymous && author?.profile?.displayName}
+                                                </p>
                                                 <p className='text-[12px] text-slate-950/50'>{timeAgo(new Date(createdAt).toISOString())}</p>
                                           </div>
                                           <div className='text-slate-800 text-sm'>{content}</div>
@@ -156,12 +158,12 @@ const ThreadModal = ({ thread, handleClose, isAnonymous }) => {
                         </div>
                         <div className='flex'>
                               <Textarea value={reply} onChange={e => setReply(e.target.value)} placeholder="Reply to a Thread" />
-                              <div onClick={mutate} className='cursor-pointer'>
+                              <button disabled={isPending} onClick={mutate} className='cursor-pointer'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="24" viewBox="0 0 24 24" fill="#5764F0" stroke="white" strokeWidth="1.5s" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal-icon lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
-                              </div>
+                              </button>
                         </div>
                   </div>
-            </Modal>
+            </Modal >
       )
 }
 
