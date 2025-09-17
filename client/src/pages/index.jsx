@@ -106,13 +106,7 @@ const CampusConnect = () => {
                                           <p>Personal campus assistant (incoming)</p>
                                     </div>
                               </div>
-                              <div className="features-box">
-                                    <span className="icon"><i className="fa-solid fa-book-open"></i></span>
-                                    <div className="features-text">
-                                          <h3>Academic tools</h3>
-                                          <p>Resources, past questions, GPA calculator</p>
-                                    </div>
-                              </div>
+
                         </div>
                   </section>
 

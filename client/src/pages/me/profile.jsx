@@ -4,6 +4,7 @@ import { useAuth } from '@//hooks/auth'
 import useProfile from '@//hooks/useProfile'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from "react-router-dom";
@@ -15,9 +16,12 @@ const Profile = () => {
       const d = useSearchParams(params)
       const [openProfile, setOpenProfile] = useState(false)
       const a = new URLSearchParams(params)
-      const { isLoading, data } = useProfile()
+      const { isLoading, data, refetch } = useProfile()
       const { data: _data } = data || {}
       const isOwner = _data?.user?.firebaseUid === user?.uid
+
+      useEffect(() => { refetch() }, [params])
+
       if (isLoading) {
             return <div>Loading...</div>
       }

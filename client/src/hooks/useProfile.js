@@ -7,17 +7,20 @@ import { useSearchParams } from "react-router-dom";
 
 const useProfile = () => {
     const params = useSearchParams()[0];
-    const realParms = new URLSearchParams(params.toString());
+    // const realParms = new URLSearchParams(params.toString());
+    const xnd = params.get("xnd");
 
     // const { data, error, fetchData, loading } = useFetch();
     const { user } = useAuth();
     return useQuery({
-        queryKey: ["profile", realParms],
+        queryKey: ["profile", xnd],
         queryFn: async () => {
             return await fetch(BASE_URL + "/profile?xnd=" + params.get("xnd"), {
                 headers: { Authorization: "Bearer " + user.uid },
             }).then((e) => e.json());
         },
+        refetchOnMount: true,
+        initialData: {},
     });
 };
 
