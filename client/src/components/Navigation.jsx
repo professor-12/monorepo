@@ -29,8 +29,8 @@ const Navigation = () => {
             SetModal((prev) => id)
       }
       return (
-            <div className='w-full overflow-hidden justify-between h-full pb-4  flex flex-col px-4'>
-                  <div className='gap-4 flex flex-col'>
+            <div className='w-full overflow-hidden justify-between h-full pb-2 flex flex-col px-2 max-md:px-1'>
+                  <div className='gap-2 flex flex-col max-md:gap-1'>
                         {
 
                               modal === 0 && <ChangeModal handleChangeModal={handleChangeModal} />
@@ -56,14 +56,14 @@ const Navigation = () => {
                                                 <Popover>
                                                       <PopoverTrigger >
                                                             <div key={indx} className={`aspect-square text-white cursor-pointer flex items-center justify-center ${isActive ? 'bg-[#5764F0]' : "bg-[#E7E7E9] !text-black"} rounded-[0.6rem] text-white text-center border-b last:border-none border-border`}>
-                                                                  <span className='text-lg'>{item.icon || "ES"}</span>
+                                                                  <span className='text-lg max-md:text-sm'>{item.icon || "ES"}</span>
                                                             </div>
                                                       </PopoverTrigger>
                                                       <PopoverContent
                                                             side="right"
                                                             align="start"
                                                             sideOffset={12}
-                                                            className="w-48 rounded-xl border border-gray-200 bg-white shadow-md"
+                                                            className="w-48 rounded-xl border border-gray-200 bg-white shadow-md max-md:w-40"
                                                       >
                                                             <h1 className="px-3 py-2 text-sm font-semibold text-gray-700 border-b">
                                                                   Create
@@ -87,7 +87,7 @@ const Navigation = () => {
                                     return (
 
                                           <div key={indx} className={`aspect-square text-white flex items-center justify-center ${isActive ? 'bg-[#5764F0]' : "bg-[#E7E7E9] !text-black"} rounded-[0.6rem] text-white text-center border-b last:border-none border-border`}>
-                                                <span className='text-lg'>{item.icon || "ES"}</span>
+                                                <span className='text-lg max-md:text-sm'>{item.icon || "ES"}</span>
                                           </div>
                                     )
                               })
@@ -100,8 +100,8 @@ const Navigation = () => {
                   <div onClick={async () => {
                         await signOut(auth)
 
-                  }} className={`aspect-square flex items-center justify-center rounded-[0.6rem]  cursor-pointer text-red-500 border-b last:border-none border-border`}>
-                        <span className='text-lg'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>
+                  }} className={`aspect-square flex items-center justify-center rounded-[0.6rem] cursor-pointer text-red-500 border-b last:border-none border-border`}>
+                        <span className='text-lg max-md:text-sm'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg></span>
                   </div>
 
             </div >
