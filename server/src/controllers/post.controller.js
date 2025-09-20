@@ -178,3 +178,13 @@ export const getMyPost = async (req, res, next) => {
         next(error);
     }
 };
+
+export const deletePost = async (req, res, next) => {
+    const userId = req.user.id;
+
+    const id = req.params.postId;
+
+    await prisma.post.delete({ where: { id, authorId: userId } });
+
+    return res.status(200).json({ message: "Post deleted successfully" });
+};

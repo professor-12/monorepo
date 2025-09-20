@@ -6,6 +6,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { Pencil } from "lucide-react";
 import React from "react";
+import DeleteModal from "./delete-modal";
+import { useState } from "react";
 
 const MyPost = () => {
       const { user } = useAuthContext();
@@ -52,8 +54,9 @@ const MyPost = () => {
 
 
 
-const PostCard = ({ post, onEdit = () => { }, onDelete = () => { } }) => {
+const PostCard = ({ post, onEdit = () => { }, ...props }) => {
       const queryClient = useQueryClient()
+      const [confirmDelete, setConfirmDelete] = useState(null)
       const savePost = useMutation({
             mutationFn: async ({ formData, id }) => {
                   const url = id ? `${BASE_URL}/post/${id}` : `${BASE_URL}/post`;
@@ -72,22 +75,12 @@ const PostCard = ({ post, onEdit = () => { }, onDelete = () => { } }) => {
                   setEditingPost(null);
             },
       });
-      const deletePost = useMutation({
-            mutationFn: async (postId) => {
-                  const res = await fetch(BASE_URL + `/post/${postId}`, {
-                        method: "DELETE",
-                        headers: { Authorization: "Bearer " + user?.uid },
-                  });
-                  if (!res.ok) throw new Error("Failed to delete");
-                  return res.json();
-            },
-            onSuccess: () => {
-                  queryClient.invalidateQueries(["my-post"]);
-            },
-      });
 
       return (
-            <Card className="w-full p-0 h-[20rem] rounded-2xl shadow-sm">
+            <Card className="w-full p-0 min-h-[20rem] rounded-2xl shadow-sm">
+                  {confirmDelete && <DeleteModal id={post.id} cancel={() => {
+                        setConfirmDelete(null)
+                  }} />}
                   <CardContent className="space-y-4">
                         {post.thumbnail && (
                               <img
@@ -96,7 +89,7 @@ const PostCard = ({ post, onEdit = () => { }, onDelete = () => { } }) => {
                                     className="rounded-lg h-52 w-full object-cover"
                               />
                         )}
-                        <p className="text-gray-600 text-sm">{post.content}</p>
+                        <p className="text-gray-600 line-clamp-4  text-sm">{post.content}</p>
 
                         {/* tags */}
                         {post.tags?.length > 0 && (
@@ -123,7 +116,7 @@ const PostCard = ({ post, onEdit = () => { }, onDelete = () => { } }) => {
                               <Button
                                     size="sm"
                                     variant="destructive"
-                                    onClick={() => onDelete(post.id)}
+                                    onClick={() => setConfirmDelete(post.id)}
                                     className="rounded-full"
                               >
                                     <Trash2 className="h-4 w-4 mr-1" /> Delete
