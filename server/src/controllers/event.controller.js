@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const router = Router();
 
@@ -7,12 +8,24 @@ const router = Router();
  * Create an event
  * POST /api/events
  */
-router.post("/", async (req, res, next) => {
+export const createEvent = async (req, res, next) => {
     try {
-        const { title, description, location, banner, startsAt, endsAt } =
-            req.body;
+        const { title, description, location, startsAt, endsAt } = req.body;
 
         const createdById = req.user.id;
+
+        let banner = undefined;
+
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString("base64");
+            const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+
+            const uploadRes = await cloudinary.uploader.upload(dataURI, {
+                folder: "events",
+            });
+
+            banner = uploadRes.secure_url;
+        }
         const event = await prisma.event.create({
             data: {
                 title,
@@ -30,29 +43,32 @@ router.post("/", async (req, res, next) => {
         next(error);
         res.status(500).json({ message: "Failed to create event" });
     }
-});
+};
 
 /**
  * Get all events
  * GET /api/events
  */
-router.get("/", async (_req, res) => {
+export const getEvents = async (_req, res) => {
     try {
         const events = await prisma.event.findMany({
             include: {
-                createdBy: true,
+                createdBy: { select: { profile: true } },
                 tickets: true,
                 attendees: true,
             },
             orderBy: { startsAt: "asc" },
         });
 
-        res.json(events);
+        res.status(200).json({
+            data: events,
+            message: "Event fetch Successfully",
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to fetch events" });
     }
-});
+};
 
 /**
  * Get a single event by ID

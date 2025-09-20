@@ -14,6 +14,7 @@ import {
 import route from "./routes/auth.route.js";
 import {
     createPost,
+    deletePost,
     getMyPost,
     handleLikePost,
     post,
@@ -21,7 +22,10 @@ import {
 import { sendMessageContoller } from "./controllers/message.controller.js";
 import { sendCommentController } from "./controllers/comment.controller.js";
 import multer from "multer";
-import eventRoute from "./controllers/event.controller.js";
+import eventRoute, {
+    createEvent,
+    getEvents,
+} from "./controllers/event.controller.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -55,7 +59,9 @@ app.put(
     editProfileController
 );
 
-app.use("/event", protect, eventRoute);
+app.delete("/post/:postId", protect, deletePost);
+app.post("/event/create", protect, upload.single("banner"), createEvent);
+app.get("/event", getEvents);
 app.post("/channel/add-member", protect, addMember);
 app.post("/channel/reply/:messageId", protect, replyToMessage);
 

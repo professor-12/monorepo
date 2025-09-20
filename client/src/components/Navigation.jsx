@@ -93,7 +93,7 @@ const Navigation = () => {
                               })
                         }
                         {
-                              modal == 2 && <CreateEvent />
+                              modal == 2 && <CreateEvent handleChangeModal={handleChangeModal} />
                         }
 
                   </div>
