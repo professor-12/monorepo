@@ -3,6 +3,7 @@ import MarketPlace from '@//components/(tabs)/components/marketplace/MarketPlace
 import MarketPlaceProvider from '@//store/MarketPlaceProvider'
 import { useTab } from '@//store/TabProvider'
 import { Channel } from '@/components/(tabs)/components/channels/Channels'
+import AI from '@/components/modal/ai/page'
 import ChannelProvider from '@/store/ChannelProvider'
 import React from 'react'
 
