@@ -38,7 +38,6 @@ const ChatBotUI = () => {
             setInputText('');
             setIsTyping(true);
 
-            // Simulate AI response
             setTimeout(() => {
                   const aiResponse = {
                         id: Date.now() + 1,
@@ -51,12 +50,6 @@ const ChatBotUI = () => {
             }, 2000);
       };
 
-      const handleKeyPress = (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-            }
-      };
 
       const MessageCard = ({ message }) => {
             const isUser = message.sender === 'user';
