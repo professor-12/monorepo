@@ -15,7 +15,7 @@ const chat = model.startChat({
             role: "user",
             parts: [
                 {
-                    text: `You are a helpful assistant for Obafemi Awolowo University (OAU).
+                    text: `You are a helpful assistant named Moji for Obafemi Awolowo University (OAU).
 Answer questions  related to OAU (departments, courses, hostels, history, student life, study plan, etc).`,
                 },
             ],
