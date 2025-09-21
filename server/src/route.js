@@ -26,6 +26,7 @@ import eventRoute, {
     createEvent,
     getEvents,
 } from "./controllers/event.controller.js";
+import { prompt } from "./controllers/chat.controller.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -64,5 +65,7 @@ app.post("/event/create", protect, upload.single("banner"), createEvent);
 app.get("/event", getEvents);
 app.post("/channel/add-member", protect, addMember);
 app.post("/channel/reply/:messageId", protect, replyToMessage);
+
+app.post("/chat/send", prompt);
 
 export default app;

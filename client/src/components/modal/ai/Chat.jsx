@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, MoreHorizontal } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { CornerRightUp } from 'lucide-react';
+import { BASE_URL } from '@/lib/utils';
 
 const ChatBotUI = () => {
       const [messages, setMessages] = useState([
@@ -37,26 +38,19 @@ const ChatBotUI = () => {
             setMessages(prev => [...prev, userMessage]);
             setInputText('');
             setIsTyping(true);
+            const res = await fetch(BASE_URL + "/chat/send", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: inputText }) })
+            const response = await res.json()
+            const aiResponse = {
+                  id: Date.now() + 1,
+                  text: response.data,
+                  sender: 'ai',
+                  timestamp: new Date()
+            };
+            setMessages(prev => [...prev, aiResponse]);
+            setIsTyping(false);
 
-            // Simulate AI response
-            setTimeout(() => {
-                  const aiResponse = {
-                        id: Date.now() + 1,
-                        text: "I understand your question. Let me help you with that. This is a sample response to demonstrate the chat interface. I can assist you with various tasks including answering questions, writing, analysis, and more.",
-                        sender: 'ai',
-                        timestamp: new Date()
-                  };
-                  setMessages(prev => [...prev, aiResponse]);
-                  setIsTyping(false);
-            }, 2000);
       };
 
-      const handleKeyPress = (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-            }
-      };
 
       const MessageCard = ({ message }) => {
             const isUser = message.sender === 'user';
