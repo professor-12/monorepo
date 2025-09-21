@@ -10,7 +10,7 @@ export const tabList = [
     { name: "Channel", id: "channel" },
     { name: "Market", id: "market" },
     { name: "Event", id: "event" },
-    { name: "Ai ChatBot", id: "ai" },
+    // { name: "Ai ChatBot", id: "ai" },
 ];
 
 export const BASE_URL = import.meta.env.VITE_BASE_URL;
