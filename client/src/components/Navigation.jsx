@@ -13,11 +13,12 @@ import useProfile from '../hooks/useProfile'
 import AddPost from './modal/add-post'
 import { useNavigate } from "react-router-dom"
 import CreateEvent from './modal/create-event'
+import AI from './modal/ai/page'
 
 const navData = [{ name: "", icon: "", link: "/" },
 { name: "Friends", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>, link: "/friends" },
-{ name: "Settings", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg>, link: "/settings" },
-{ name: "Groups", icon: "", link: "/groups" }]
+{ name: "Settings", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg>, link: "/settings", },
+{ name: "Groups", icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot-icon lucide-bot"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></svg>, link: "/groups" }]
 
 
 const Navigation = () => {
@@ -52,7 +53,6 @@ const Navigation = () => {
                                     }
                                     if (indx == 1) {
                                           return (
-
                                                 <Popover>
                                                       <PopoverTrigger >
                                                             <div key={indx} className={`aspect-square text-white cursor-pointer flex items-center justify-center ${isActive ? 'bg-[#5764F0]' : "bg-[#E7E7E9] !text-black"} rounded-[0.6rem] text-white text-center border-b last:border-none border-border`}>
@@ -83,6 +83,9 @@ const Navigation = () => {
 
                                                 </Popover>
                                           )
+                                    }
+                                    if (indx == 3) {
+                                          return <AI />
                                     }
                                     return (
 

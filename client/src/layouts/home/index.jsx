@@ -14,7 +14,9 @@ const HomeLayout = () => {
                               <Navigation />
                         </div>
                         <div className='border overflow-hidden rounded-tl-lg  border-border flex-1'>
-                              <Outlet />
+                              <div className='w-full'>
+                                    <Outlet />
+                              </div>
                         </div>
                   </div>
             </div>
